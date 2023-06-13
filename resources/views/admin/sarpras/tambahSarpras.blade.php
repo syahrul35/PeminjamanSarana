@@ -48,7 +48,7 @@
                     <div class="md:w-2/3">
                         <select name="id_kategori" class="form-select block w-full focus:bg-white" id="id_kategori">
                             @foreach ($sarpras as $sarpras)
-                            <option value="{{ $sarpras->id_kategori }}" {{ old('id_kategori') == $sarpras->id_kategori ? 'selected' : '' }}>
+                            <option value="{{ $sarpras->id }}" {{ old('id_kategori') == $sarpras->id_kategori ? 'selected' : '' }}>
                                 {{ $sarpras->nama_kategori }}
                             </option>
                             @endforeach
@@ -65,7 +65,7 @@
                     <div class="md:w-2/3">
                         <select name="id_wewenang" class="form-select block w-full focus:bg-white" id="my-select" data-item="" value="">
                             @foreach ($wewenang as $wewenang)
-                            <option value="{{ $wewenang->id_wewenang }}" {{ $wewenang->id_wewenang == $wewenang->id_wewenang  ? 'selected' : ''}}>{{ $wewenang->nama_wewenang }}</option>
+                            <option value="{{ $wewenang->id }}" {{ $wewenang->id == $wewenang->id  ? 'selected' : ''}}>{{ $wewenang->nama_wewenang }}</option>
                             @endforeach
                         </select>
                     </div>

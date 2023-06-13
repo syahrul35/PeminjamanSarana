@@ -13,12 +13,8 @@ return new class extends Migration
     {
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
-            $table->bigInteger('id_event')->unsigned();
-            $table->foreign('id_event')->references('id')->on('events');
-            $table->bigInteger('id_sarpras')->unsigned();
-            $table->foreign('id_sarpras')->references('id')->on('sarpras');
+            $table->bigInteger('id_pengajuan')->unsigned();
+            $table->foreign('id_pengajuan')->references('id')->on('pengajuans');
             $table->tinyInteger('status_peminjaman')->default(0);
             $table->timestamps();
         });

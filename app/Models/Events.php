@@ -20,8 +20,13 @@ class Events extends Model
         'pemateri',
         'undangan',
         'biaya_pengeluaran',
-        'biaya_pemasukan',
+        'biaya_pendapatan',
     ];
+
+    public static function getEventById($id)
+    {
+        return self::findOrFail($id);
+    }
 
     // public function get()
     // {

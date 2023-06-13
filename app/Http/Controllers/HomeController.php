@@ -11,6 +11,9 @@ use App\Models\Wewenang;
 use App\Models\KategoriSarpras;
 use App\Models\Sarpras;
 use App\Models\Peminjaman;
+use App\Models\Pengajuan;
+use App\Models\Events;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -19,6 +22,8 @@ class HomeController extends Controller
      *
      * @return void
      */
+
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -31,8 +36,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('penyelenggara.dashboardPenyelenggara');
+        $pengajuan = DB::table('pengajuans')
+            ->join('users', 'pengajuans.id_user', '=', 'users.id')
+            ->join('events', 'pengajuans.id_event', '=', 'events.id')
+            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+            ->where('pengajuans.id_user', '=', Auth::user()->id)
+            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras')
+            ->get();
+
+        return view('penyelenggara.dashboardPenyelenggara', compact('pengajuan'));
     }
+
+
 
     /**
      * Show the application dashboard.
@@ -41,8 +56,24 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
-        // $this->authorize('admin');
-        return view('admin/dashboardAdmin');
+        // $data = [
+        //     'event' => Events::all(),
+        //     'peminjaman' => Peminjaman::all(),
+        // ];
+
+        // $pengajuan = Pengajuan::all();
+        $peminjaman = Peminjaman::all();
+
+        $pengajuan = DB::table('pengajuans')
+            ->join('users', 'pengajuans.id_user', '=', 'users.id')
+            ->join('events', 'pengajuans.id_event', '=', 'events.id')
+            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
+            ->get();
+
+        return view('admin/dashboardAdmin', compact('pengajuan', 'peminjaman'));
+
+        // return view('admin/dashboardAdmin', $data);
     }
 
     public function kelolaPenyelenggara()
@@ -76,7 +107,12 @@ class HomeController extends Controller
     {
         // $this->authorize('admin');
         // join table
-        $sarpras = Sarpras::join('wewenangs', 'wewenangs.id', '=', 'sarpras.id_wewenang')->paginate(5);
+        // $sarpras = Sarpras::join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')->paginate(5);
+
+        $sarpras = DB::table('sarpras')
+            ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
+            ->select('sarpras.*', 'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
+            ->get();
 
         //render view with kategori
         return view('./admin/sarpras/kelolaSarpras', compact('sarpras'));
@@ -86,13 +122,15 @@ class HomeController extends Controller
     {
         // $this->authorize('admin');
         //get kategori
-        $pengajuan = DB::table('peminjaman')
-            ->join('users', 'users.id', '=', 'peminjaman.id_user')
-            ->join('events', 'events.id', '=', 'peminjaman.id_event')
-            ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
-            ->where('peminjaman.status_peminjaman', '=', '0')
-            ->get();
+        // $pengajuan = DB::table('pengajuan')
+        //     ->join('users', 'users.id', '=', 'peminjaman.id_user')
+        //     ->join('events', 'events.id', '=', 'peminjaman.id_event')
+        //     ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
+        //     ->where('peminjaman.status_peminjaman', '=', '0')
+        //     ->get();
         // ->paginate(5);
+
+        $pengajuan = Pengajuan::all();
 
         //render view with peminjaman
         return view('./admin/pengajuan', compact('pengajuan'));
@@ -102,13 +140,15 @@ class HomeController extends Controller
     {
         // $this->authorize('admin');
         //get kategori
-        $peminjaman = DB::table('peminjaman')
-            ->join('users', 'users.id', '=', 'peminjaman.id_user')
-            ->join('events', 'events.id', '=', 'peminjaman.id_event')
-            ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
-            ->where('peminjaman.status_peminjaman', '=', '1')
-            ->get();
+        // $peminjaman = DB::table('peminjaman')
+        //     ->join('users', 'users.id', '=', 'peminjaman.id_user')
+        //     ->join('events', 'events.id', '=', 'peminjaman.id_event')
+        //     ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
+        //     ->where('peminjaman.status_peminjaman', '=', '1')
+        //     ->get();
         // ->paginate(5);
+
+        $peminjaman = Peminjaman::all();
 
         //render view with peminjaman
         return view('./admin/peminjaman', compact('peminjaman'));
@@ -116,6 +156,7 @@ class HomeController extends Controller
 
     public function bandingkanEvent()
     {
+        
         return view('bandingkanEvent');
     }
 }

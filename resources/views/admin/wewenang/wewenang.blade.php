@@ -33,7 +33,7 @@
                     <tbody>
                         @forelse ($wewenang as $wewenang)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
-                            <td class="px-6 py-4">1.</td>
+                            <td class="px-6 py-4">{{ $loop->iteration }}.</td>
                             <td class="px-6 py-4">{{ $wewenang->nama_wewenang }}</td>
                             <td class="px-6 py-4">{{ $wewenang->jabatan_wewenang }}</td>
                             <td class="px-6 py-4">{{ $wewenang->telp_wewenang }}</td>

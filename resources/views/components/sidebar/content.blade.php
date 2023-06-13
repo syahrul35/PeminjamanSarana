@@ -11,7 +11,7 @@
     @can('admin')
     <x-sidebar.link title="Kelola Penyelenggara" href="{{ route('kelolaPenyelenggara') }}" :isActive="request()->routeIs('penyelenggara')">
         <x-slot name="icon">
-            <x-heroicon-s-user class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-heroicon-s-users class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
     @endcan
@@ -33,7 +33,7 @@
     @endcan
 
     @can('admin')
-    <x-sidebar.link title="Kelola Sarana" href="{{ route('kelolaSarpras') }}" :isActive="request()->routeIs('sarana')">
+    <x-sidebar.link title="Kelola Sarana" href="{{ route('kelolaSarpras') }}" :isActive="request()->routeIs('kelolaSarana')">
         <x-slot name="icon">
             <x-heroicon-m-home class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -64,12 +64,23 @@
     </x-sidebar.link>
     @endcan
 
+    {{-- dashboard penyelenggara --}}
+
     @can('user')
-    <x-sidebar.link title="Kita Pinjam" href="{{ route('bandingkanEvent') }}" :isActive="request()->routeIs('bandingkanEvent')">
+    <x-sidebar.link title="Dashboard Penyelengara" href="{{ route('dashboardPenyelenggara') }}" :isActive="request()->routeIs('dashboardPenyelenggara')">
         <x-slot name="icon">
-            <x-heroicon-o-scale class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-heroicon-m-squares-2x2 class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
     @endcan
+
+    @can('user')
+    <x-sidebar.link title="Kelola Event" href="{{ route('kelolaEvent') }}" :isActive="request()->routeIs('kelolaEvent')">
+        <x-slot name="icon">
+            <x-heroicon-s-plus-circle class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+    @endcan
+    
 
 </x-perfect-scrollbar>

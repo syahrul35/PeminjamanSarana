@@ -17,14 +17,14 @@ class PeminjamanController extends Controller
     public function index()
     {
         //get kategori
-        $peminjaman = DB::table('peminjaman')
-            ->join('users', 'users.id', '=', 'peminjaman.id_user')
-            ->join('events', 'events.id', '=', 'peminjaman.id_event')
-            ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
-            ->where('peminjaman.status_peminjaman', '=', '1')
-            ->get();
+        // $peminjaman = DB::table('peminjaman')
+        //     ->join('users', 'users.id', '=', 'peminjaman.id_user')
+        //     ->join('events', 'events.id', '=', 'peminjaman.id_event')
+        //     ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
+        //     ->where('peminjaman.status_peminjaman', '=', '1')
+        //     ->get();
         // ->paginate(5);
-
+        $pengajuan = Peminjaman::all();
         //render view with peminjaman
         return view('./admin/peminjaman', compact('peminjaman'));
     }

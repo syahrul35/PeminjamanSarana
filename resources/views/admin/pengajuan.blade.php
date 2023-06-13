@@ -9,7 +9,6 @@
 
     <!-- body -->
     <div>
-
         <div class="py-2">
             <div class="overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
@@ -21,29 +20,29 @@
                             <th scope="col" class="px-6 py-3">Tanggal Mulai</th>
                             <th scope="col" class="px-6 py-3">Tanggal Berakhir</th>
                             <th scope="col" class="px-6 py-3">Acara</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
+                            {{-- <th scope="col" class="px-6 py-3">Status</th> --}}
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($pengajuan as $pengajuan)
+                        @forelse ( $pengajuan as $pengajuan)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->name }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->id_user }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_mulai }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_akhir }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->status_peminjaman }}</td>
+                            {{-- <td class="px-6 py-4">{{ $event->status_peminjaman }}</td> --}}
                             <td class="px-6 py-4">
                                 <form  action="{{ route('hapusPeminjaman', $pengajuan->id) }}" method="POST">
                                     <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
-                                        <span>{{ __('Selesai') }}</span>
+                                        <span>{{ __('Terima') }}</span>
                                     </x-button>
                                     @csrf
                                     @method('DELETE')
                                     <x-button class="justify-center gap-2 bg-red-500 hover:bg-red-600 mt-2">
-                                        <span>{{ __('Batalkan') }}</span>
+                                        <span>{{ __('Tolak') }}</span>
                                     </x-button>
                                 </form>
                             </td>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BandingkanEvent;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
@@ -33,6 +35,19 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboardPenyelenggara');
 });
 
+// event
+Route::middleware(['auth', 'user-access:user'])->group(function () {
+    Route::get('/kelolaEvent', [EventController::class, 'index'])->name('kelolaEvent');
+    Route::get('/tambahEvent', [EventController::class, 'create'])->name('tambahEvent');
+    Route::post('/kelolaEvent', [EventController::class, 'store'])->name('simpanEvent');
+    Route::patch('/kelolaEvent/{event}/edit', [EventController::class, 'update'])->name('updateEvent');
+    Route::get('/kelolaEvent/{id}', [EventController::class, 'edit'])->name('editEvent');
+    Route::delete('kelolaEvent/{event}/delete', [EventController::class, 'destroy'])->name('hapusEvent');
+
+    Route::get('/pilihSarpras/{id}', [EventController::class, 'pilihSarpras'])->name('pilihSarpras');
+    Route::post('/buatPengajuan', [EventController::class, 'buatPengajuan'])->name('buatPengajuan');
+});
+
 // admin
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin', [HomeController::class, 'adminHome'])->name('dashboardAdmin');
@@ -40,9 +55,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/wewenang', [HomeController::class, 'wewenang'])->name('wewenang');
     Route::get('/admin/kategoriSarana', [HomeController::class, 'kategoriSarana'])->name('kategoriSarana');
     Route::get('/admin/sarana', [HomeController::class, 'kelolaSarana'])->name('kelolaSarpras');
-    Route::get('/admin/pengajuan', [HomeController::class, 'kelolaPengajuan'])->name('pengajuan');
-    Route::get('/admin/peminjaman', [HomeController::class, 'kelolaPeminjaman'])->name('peminjaman');
-    Route::get('/admin/bandingkanEvent', [HomeController::class, 'bandingkanEvent'])->name('bandingkanEvent');
+    // Route::get('/admin/pengajuan', [HomeController::class, 'kelolaPengajuan'])->name('pengajuan');
+    // Route::get('/admin/peminjaman', [HomeController::class, 'kelolaPeminjaman'])->name('peminjaman');
+    // Route::get('/admin/bandingkanEvent', [HomeController::class, 'bandingkanEvent'])->name('bandingkanEvent');
 });
 
 // edit user
@@ -69,17 +84,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/wewenang', [WewenangController::class, 'store'])->name('simpanWewenang');
     Route::patch('/wewenang/{wewenang}/edit', [WewenangController::class, 'update'])->name('updateWewenang');
     Route::get('/wewenang/{id}/', [WewenangController::class, 'edit'])->name('editWewenang');
-    Route::delete('/admin/{nama_wewenang}/delete', [WewenangController::class, 'destroy'])->name('hapusWewenang');
+    Route::delete('/wewenang/{nama_wewenang}/delete', [WewenangController::class, 'destroy'])->name('hapusWewenang');
 });
 
-// kategori Sarana dan Prasarana
+// kategori Sarpras
 Route::middleware('auth')->group(function () {
     // Route::get('/admin/kategoriSarana', [KategoriSarprasController::class, 'index'])->name('kategoriSarana');
     Route::get('/admin/tambahKategori', [KategoriSarprasController::class, 'create'])->name('tambahKategori');
     Route::post('/admin/kategoriSarana', [KategoriSarprasController::class, 'store'])->name('simpanKategori');
     Route::patch('/kategori/{kategori}/edit', [KategoriSarprasController::class, 'update'])->name('updateKategori');
     Route::get('/kategori/{id}/', [KategoriSarprasController::class, 'edit'])->name('editKategori');
-    Route::delete('/admin/{nama_kategori}/delete', [KategoriSarprasController::class, 'destroy'])->name('hapusKategori');
+    Route::delete('/kategoriSarana/{nama_kategori}/delete', [KategoriSarprasController::class, 'destroy'])->name('hapusKategori');
 });
 
 // kelola sarpras
@@ -87,23 +102,31 @@ Route::middleware('auth')->group(function () {
     // Route::get('/admin/kelolaSarpras', [SarprasController::class, 'index'])->name('kelolaSarpras');
     Route::get('/admin/tambahSarpras', [SarprasController::class, 'create'])->name('tambahSarpras');
     Route::post('/admin/kelolaSarpras', [SarprasController::class, 'store'])->name('simpanSarpras');
-    Route::patch('/sarpras/{sarpras}/edit', [SarprasController::class, 'update'])->name('updateSarpras');
-    Route::get('/sarpras/{id}/', [SarprasController::class, 'edit'])->name('editSarpras');
-    Route::delete('/admin/{nama_sarpras}/delete', [SarprasController::class, 'destroy'])->name('hapusSarpras');
+    Route::patch('/kelolaSarpras/{sarpras}/edit', [SarprasController::class, 'update'])->name('updateSarpras');
+    Route::get('/kelolaSarpras/{id}', [SarprasController::class, 'edit'])->name('editSarpras');
+    Route::delete('/sarpras/{nama_sarpras}/delete', [SarprasController::class, 'destroy'])->name('hapusSarpras');
 });
 
 // kelola pengajuan
 Route::middleware('auth')->group(function () {
-    // Route::get('/admin/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
+    Route::get('/admin/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
     Route::get('/admin/tambahPengajuan', [PengajuanController::class, 'create'])->name('tambahPengajuan');
     Route::delete('/admin/{id}/delete', [PengajuanController::class, 'destroy'])->name('hapusPengajuan');
 });
 
 // kelola peminjaman
 Route::middleware('auth')->group(function () {
-    // Route::get('/admin/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
-    Route::delete('/admin/{id}/delete', [PeminjamanController::class, 'destroy'])->name('hapusPeminjaman');
+    Route::get('/admin/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
+    Route::delete('/kelolaPeminjaman/{id}/delete', [PeminjamanController::class, 'destroy'])->name('hapusPeminjaman');
 });
+
+//bandingkan event
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/bandingkanEvent', [BandingkanEvent::class, 'index'])->name('bandingkanEvent');
+    Route::get('/bandingkanEvent/{id}', [BandingkanEvent::class, 'getEventById']);
+    // Route::delete('/BandingkanEvent/{id}/delete', [BandingkanEvent::class, 'destroy'])->name('hapusBandingkanEvent');
+});
+
 
 
 require __DIR__ . '/auth.php';

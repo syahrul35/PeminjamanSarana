@@ -35,14 +35,14 @@
                     <tbody>
                         @forelse ($sarpras as $sarpras)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
-                            <td class="px-6 py-4">1.</td>
+                            <td class="px-6 py-4">{{ $loop->iteration }}.</td>
                             <td class="px-6 py-4">{{ $sarpras->nama_sarpras }}</td>
                             <td class="px-6 py-4">{{ $sarpras->jumlah }}</td>
                             <td class="px-6 py-4">{{ $sarpras->nama_wewenang }}</td>
                             <td class="px-6 py-4">{{ $sarpras->telp_wewenang }}</td>
                             <td class="px-6 py-4">{{ $sarpras->status }}</td>
                             <td class="px-6 py-4">
-                                <form action="{{ route ('editSarpras',$sarpras)}}" method="get">
+                                <form action="{{ route ('editSarpras',$sarpras->id)}}" method="get">
                                     {{ csrf_field() }}
                                     <!-- <button type="submit" class="btn btn-primary btn-sm" style="float:left;">Update</button> -->
                                     <x-button class="justify-center gap-2 bg-yellow-400 hover:bg-yellow-500">
@@ -50,7 +50,7 @@
                                     </x-button>
                                 </form>
                                 </form>
-                                <form action="{{ route('hapusSarpras', $sarpras) }}" method="post" class="mt-2 pt-2">
+                                <form action="{{ route('hapusSarpras', $sarpras->id) }}" method="POST" class="mt-1 pt-2">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="DELETE" class="pt-2 mt-2">
                                     <!-- <button type="submit" class="btn btn-danger btn-sm" style="margin-left:3px;">Delete</button> -->

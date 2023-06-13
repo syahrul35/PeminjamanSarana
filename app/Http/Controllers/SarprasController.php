@@ -36,13 +36,6 @@ class SarprasController extends Controller
 
     public function store(Request $request)
     {
-        // $sarpras = new Sarpras();
-        // $sarpras->id_kategori = $request->nama_kategori;
-        // $sarpras->id_wewenang = $request->id_wewenang;
-        // $sarpras->nama_sarpras = $request->nama_sarpras;
-        // $sarpras->jumlah = $request->jumlah;
-        // $sarpras->save();
-
         Sarpras::create([
             'id_kategori' => $request->id_kategori,
             'id_wewenang' => $request->id_wewenang,
@@ -50,16 +43,19 @@ class SarprasController extends Controller
             'jumlah' => $request->jumlah,
         ]);
 
-        // Sarpras::create($request->all());
-
-        return redirect('admin/kelolaSarpras');
+        return redirect('admin/sarana');
     }
 
     // edit
     public function edit($id)
     {
-        $sarpras = Sarpras::find($id);
-        return view('./admin/kelolaSarpras.editSarpras', compact('sarpras'));
+        $data = [
+            'sarpras' => Sarpras::find($id),
+            'kategori' => KategoriSarpras::all(),
+            'wewenang' => Wewenang::all(),
+        ];
+        
+        return view('admin/sarpras.editSarpras', $data);
     }
 
     public function update(Request $request, $id)
@@ -67,20 +63,20 @@ class SarprasController extends Controller
         //get post by ID
         $sarpras = Sarpras::findOrFail($id);
 
-        //update sarpras without image
+        //update sarpras 
         $sarpras->update([
             'id_kategori' => $request->id_kategori,
             'id_wewenang' => $request->id_wewenang,
             'nama_sarpras' => $request->nama_sarpras,
             'jumlah' => $request->jumlah,
         ]);
-        return redirect()->route('user');
+        return redirect('admin/sarana');
     }
 
     // hapus
     public function destroy(Sarpras $nama_sarpras)
     {
         $nama_sarpras->delete();
-        return redirect('/admin/kelolaSarpras');
+        return redirect('/admin/sarana');
     }
 }

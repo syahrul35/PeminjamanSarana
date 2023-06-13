@@ -29,7 +29,7 @@
                 <tbody>
                     @forelse ($user as $user)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
-                        <td class="px-6 py-4">1.</td>
+                        <td class="px-6 py-4">{{ $loop->iteration }}.</td>
                         <td class="px-6 py-4">{{ $user->name }}</td>
                         <td class="px-6 py-4">{{ $user->email }}</td>
                         <td class="px-6 py-4">

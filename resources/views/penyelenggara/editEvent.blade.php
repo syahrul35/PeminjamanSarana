@@ -35,8 +35,9 @@
         <!--Card-->
         <div id='section2' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
 
-            <form action="{{ route('simpanEvent') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('updateEvent', $event) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PATCH')
                 <div class="md:flex mb-4">
                     <div class="md:w-1/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
@@ -44,7 +45,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="id_user" type="hidden" value="{{ Auth::user()->id }}" name="id_user">
+                        <input class="form-input block w-full rounded focus:bg-white" id="id_user" type="hide" value="{{ Auth::user()->id }}" name="id_user">
                     </div>
                 </div>
     
@@ -55,7 +56,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="nama_event" type="text" value="" name="nama_event">
+                        <input class="form-input block w-full rounded focus:bg-white" id="nama_event" type="text" value="{{ $event->nama_event }}" name="nama_event">
                     </div>
                 </div>
     
@@ -66,7 +67,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="date" value="" name="tgl_mulai">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="datetime-local" value="{{ $event->tgl_mulai }}" name="tgl_mulai">
                     </div>
                 </div>
     
@@ -77,7 +78,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="date" min="" value="" name="tgl_akhir">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="datetime-local" min="" value="{{ $event->tgl_akhir }}" name="tgl_akhir">
                     </div>
                 </div>
     
@@ -88,7 +89,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="jumlah_peserta" type="text" value="" name="jumlah_peserta">
+                        <input class="form-input rounded block w-full focus:bg-white" id="jumlah_peserta" type="text" value="{{ $event->jumlah_peserta }}" name="jumlah_peserta">
                     </div>
                 </div>
     
@@ -99,7 +100,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="" name="pemateri">
+                        <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="{{ $event->pemateri }}" name="pemateri">
                     </div>
                 </div>
     
@@ -110,7 +111,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="undangan" type="text" value="" name="undangan">
+                        <input class="form-input rounded block w-full focus:bg-white" id="undangan" type="text" value="{{ $event->undangan }}" name="undangan">
                     </div>
                 </div>
     
@@ -121,7 +122,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="biaya_pengeluaran" type="text" value="" name="biaya_pengeluaran">
+                        <input class="form-input rounded block w-full focus:bg-white" id="biaya_pengeluaran" type="text" value="{{ $event->biaya_pengeluaran }}" name="biaya_pengeluaran">
                     </div>
                 </div>
     
@@ -132,7 +133,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="biaya_pendapatan" type="text" value="" name="biaya_pendapatan">
+                        <input class="form-input rounded block w-full focus:bg-white" id="biaya_pendapatan" type="text" value="{{ $event->biaya_pendapatan }}" name="biaya_pendapatan">
                     </div>
                 </div>
     

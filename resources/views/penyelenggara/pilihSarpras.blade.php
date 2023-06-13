@@ -30,13 +30,14 @@
 <body class="bg-gray-100 text-gray-900 tracking-wider leading-normal m-4 my-4 justify-center">
     
 <!--Title-->
-<h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Tambah Event</h2>
+<h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Pilih Sarpras</h2>
 
         <!--Card-->
         <div id='section2' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
 
-            <form action="{{ route('simpanEvent') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('buatPengajuan', $event) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('post')
                 <div class="md:flex mb-4">
                     <div class="md:w-1/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
@@ -44,7 +45,10 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="id_user" type="hidden" value="{{ Auth::user()->id }}" name="id_user">
+                        <input class="form-input block w-full rounded focus:bg-white" id="id_event" type="hidden" value="{{ $event->id }}" name="id_event">
+                    </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input block w-full rounded focus:bg-white" id="id_user" type="hidden" value="{{ $event->id_user }}" name="id_user">
                     </div>
                 </div>
     
@@ -55,7 +59,9 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="nama_event" type="text" value="" name="nama_event">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            {{ $event->nama_event }}
+                        </label>
                     </div>
                 </div>
     
@@ -66,7 +72,9 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="date" value="" name="tgl_mulai">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            {{ $event->tgl_mulai }}
+                        </label>
                     </div>
                 </div>
     
@@ -77,70 +85,37 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="date" min="" value="" name="tgl_akhir">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            {{ $event->tgl_akhir }}
+                        </label>    
                     </div>
                 </div>
     
                 <div class="md:flex mb-4">
                     <div class="md:w-1/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Jumlah Peserta
+                            Pilih Sarana dan Prasarana
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="jumlah_peserta" type="text" value="" name="jumlah_peserta">
+                        {{-- <input class="form-input rounded block w-full focus:bg-white" id="undangan" type="text" value="{{ $event->undangan }}" name="undangan"> --}}
+                        <select name="id_sarpras" class="form-select block w-full focus:bg-white" id="id_sarpras">
+                            @foreach ($sarpras as $sarpras)
+                            <option value="{{ $sarpras->id }}" {{ old('id_sarpras') == $sarpras->id_sarpras ? 'selected' : '' }}>
+                                {{ $sarpras->nama_sarpras }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
     
-                <div class="md:flex mb-4">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Pemateri
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="" name="pemateri">
-                    </div>
-                </div>
-    
-                <div class="md:flex mb-4">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Undangan
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="undangan" type="text" value="" name="undangan">
-                    </div>
-                </div>
-    
-                <div class="md:flex mb-4">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Biaya Pengeluaran Event
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="biaya_pengeluaran" type="text" value="" name="biaya_pengeluaran">
-                    </div>
-                </div>
-    
-                <div class="md:flex mb-4">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Biaya Pendapatan Event
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input class="form-input rounded block w-full focus:bg-white" id="biaya_pendapatan" type="text" value="" name="biaya_pendapatan">
-                    </div>
-                </div>
+                
     
                 <div class="md:flex md:items-center">
                     <div class="md:w-1/3"></div>
                     <form action="">
                         <x-button class="justify-center gap-2 bg-yellow-400 hover:bg-yellow-500" type="submit">
-                            <span>{{ __('Save') }}</span>
+                            <span>{{ __('Buat Pengajuan') }}</span>
                         </x-button>
                     </form>
                 </div>
