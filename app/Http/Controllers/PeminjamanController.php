@@ -24,7 +24,7 @@ class PeminjamanController extends Controller
         //     ->where('peminjaman.status_peminjaman', '=', '1')
         //     ->get();
         // ->paginate(5);
-        $pengajuan = Peminjaman::all();
+        $peminjaman = Peminjaman::all();
         //render view with peminjaman
         return view('./admin/peminjaman', compact('peminjaman'));
     }

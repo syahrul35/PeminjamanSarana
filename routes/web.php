@@ -123,7 +123,8 @@ Route::middleware('auth')->group(function () {
 //bandingkan event
 Route::middleware('auth')->group(function () {
     Route::get('/admin/bandingkanEvent', [BandingkanEvent::class, 'index'])->name('bandingkanEvent');
-    Route::get('/bandingkanEvent/{id}', [BandingkanEvent::class, 'getEventById']);
+    Route::post('/admin/bandingkanEvent', [BandingkanEvent::class, 'index'])->name('bandingkanEvent');
+    // Route::get('/bandingkanEvent/{id}', [BandingkanEvent::class, 'getEventById']);
     // Route::delete('/BandingkanEvent/{id}/delete', [BandingkanEvent::class, 'destroy'])->name('hapusBandingkanEvent');
 });
 
