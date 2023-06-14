@@ -7,9 +7,7 @@
         </div>
     </x-slot>
 
-    <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-        {{ __("You're logged in!")  }}
-    </div>
+    <hr class="h-2 border-2">
 
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between pt-4">
         <h2 class="text-xl font-semibold leading-tight">
@@ -44,7 +42,7 @@
                             {{-- <td class="px-6 py-4">{{ $event->status_peminjaman }}</td> --}}
                             <td class="px-6 py-4">
                                 <form  action="{{ route('hapusPeminjaman', $pengajuan->id) }}" method="POST">
-                                    <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
+                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600">
                                         <span>{{ __('Terima') }}</span>
                                     </x-button>
                                     @csrf
@@ -95,7 +93,7 @@
                             <td class="px-6 py-4">{{ $peminjaman->status_peminjaman }}</td>
                             <td class="px-6 py-4">
                                 <form  action="{{ route('hapusPeminjaman', $peminjaman->id) }}" method="POST">
-                                    <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
+                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600">
                                         <span>{{ __('Selesai') }}</span>
                                     </x-button>
                                     @csrf

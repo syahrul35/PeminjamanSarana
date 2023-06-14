@@ -36,7 +36,7 @@
                             {{-- <td class="px-6 py-4">{{ $event->status_peminjaman }}</td> --}}
                             <td class="px-6 py-4">
                                 <form  action="{{ route('hapusPeminjaman', $pengajuan->id) }}" method="POST">
-                                    <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
+                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600">
                                         <span>{{ __('Terima') }}</span>
                                     </x-button>
                                     @csrf

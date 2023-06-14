@@ -1,7 +1,7 @@
 <x-perfect-scrollbar as="nav" aria-label="main" class="flex flex-col flex-1 gap-4 px-3">
 
     @can('admin')
-    <x-sidebar.link title="Dashboard" href="{{ route('dashboardAdmin') }}" :isActive="request()->routeIs('dashboard')">
+    <x-sidebar.link title="Dashboard" href="{{ route('dashboardAdmin') }}" :isActive="request()->routeIs('dashboardAdmin')">
         <x-slot name="icon">
             <x-heroicon-m-squares-2x2 class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -9,7 +9,7 @@
     @endcan
     
     @can('admin')
-    <x-sidebar.link title="Kelola Penyelenggara" href="{{ route('kelolaPenyelenggara') }}" :isActive="request()->routeIs('penyelenggara')">
+    <x-sidebar.link title="Kelola Penyelenggara" href="{{ route('kelolaPenyelenggara') }}" :isActive="request()->routeIs('kelolaPenyelenggara')">
         <x-slot name="icon">
             <x-heroicon-s-users class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -33,7 +33,7 @@
     @endcan
 
     @can('admin')
-    <x-sidebar.link title="Kelola Sarana" href="{{ route('kelolaSarpras') }}" :isActive="request()->routeIs('kelolaSarana')">
+    <x-sidebar.link title="Kelola Sarana" href="{{ route('kelolaSarpras') }}" :isActive="request()->routeIs('kelolaSarpras')">
         <x-slot name="icon">
             <x-heroicon-m-home class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
