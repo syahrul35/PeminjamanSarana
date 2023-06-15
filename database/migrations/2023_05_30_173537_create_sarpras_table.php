@@ -18,7 +18,6 @@ return new class extends Migration
             $table->bigInteger('id_wewenang')->unsigned();
             $table->foreign('id_wewenang')->references('id')->on('wewenangs');
             $table->string('nama_sarpras');
-            $table->string('jumlah');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

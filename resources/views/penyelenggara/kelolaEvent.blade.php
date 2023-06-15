@@ -53,7 +53,7 @@
                                 </form>
                                 <form action="{{ route ('pilihSarpras',$event->id)}}" method="get" class="mt-1 pt-2">
                                     {{ csrf_field() }}
-                                    <x-button class="justify-center gap-2 bg-green-400 hover:bg-yellow-500">
+                                    <x-button class="justify-center gap-2 bg-emarald-500 hover:bg-emerald-600">
                                         <span>{{ __('Pilih Sarpras') }}</span>
                                     </x-button>
                                 </form>

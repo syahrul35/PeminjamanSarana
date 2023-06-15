@@ -56,19 +56,21 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
-        // $data = [
-        //     'event' => Events::all(),
-        //     'peminjaman' => Peminjaman::all(),
-        // ];
-
-        // $pengajuan = Pengajuan::all();
-        $peminjaman = Peminjaman::all();
-
         $pengajuan = DB::table('pengajuans')
             ->join('users', 'pengajuans.id_user', '=', 'users.id')
             ->join('events', 'pengajuans.id_event', '=', 'events.id')
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+            ->where('status_pengajuan', '=', '0')
             ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
+            ->get();
+
+        $peminjaman = DB::table('peminjaman')
+            ->join('pengajuans', 'peminjaman.id_pengajuan', '=', 'pengajuans.id')
+            ->join('users', 'users.id', '=', 'pengajuans.id_user')
+            ->join('events', 'events.id', '=', 'pengajuans.id_event')
+            ->join('sarpras', 'sarpras.id', '=', 'pengajuans.id_sarpras')
+            // ->where('peminjaman.status_peminjaman', '=', '0')
+            ->select('peminjaman.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
             ->get();
 
         return view('admin/dashboardAdmin', compact('pengajuan', 'peminjaman'));

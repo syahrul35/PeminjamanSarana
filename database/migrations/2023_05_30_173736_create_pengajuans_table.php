@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('id_sarpras')->references('id')->on('sarpras');
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users');
+            $table->tinyInteger('status_pengajuan')->default(0);
             $table->timestamps();
         });
     }

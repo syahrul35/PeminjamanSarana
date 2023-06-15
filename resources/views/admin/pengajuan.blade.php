@@ -16,10 +16,10 @@
                         <tr class="text-center">
                             <th scope="col" class="px-6 py-3">No</th>
                             <th scope="col" class="px-6 py-3">Nama Peminjam</th>
+                            <th scope="col" class="px-6 py-3">Acara</th>
                             <th scope="col" class="px-6 py-3">Nama Sarana</th>
                             <th scope="col" class="px-6 py-3">Tanggal Mulai</th>
                             <th scope="col" class="px-6 py-3">Tanggal Berakhir</th>
-                            <th scope="col" class="px-6 py-3">Acara</th>
                             {{-- <th scope="col" class="px-6 py-3">Status</th> --}}
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
@@ -28,11 +28,11 @@
                         @forelse ( $pengajuan as $pengajuan)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->id_user }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->name }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_mulai }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_akhir }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
                             {{-- <td class="px-6 py-4">{{ $event->status_peminjaman }}</td> --}}
                             <td class="px-6 py-4">
                                 <form  action="{{ route('hapusPeminjaman', $pengajuan->id) }}" method="POST">

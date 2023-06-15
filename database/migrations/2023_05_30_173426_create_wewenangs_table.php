@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_wewenang');
             $table->string('jabatan_wewenang');
-            $table->integer('telp_wewenang');
+            $table->integer('telp_wewenang', 13);
             $table->timestamps();
         });
     }

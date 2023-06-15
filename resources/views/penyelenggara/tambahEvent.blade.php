@@ -139,7 +139,7 @@
                 <div class="md:flex md:items-center">
                     <div class="md:w-1/3"></div>
                     <form action="">
-                        <x-button class="justify-center gap-2 bg-yellow-400 hover:bg-yellow-500" type="submit">
+                        <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-500" type="submit">
                             <span>{{ __('Save') }}</span>
                         </x-button>
                     </form>

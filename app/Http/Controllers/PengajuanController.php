@@ -14,13 +14,14 @@ class PengajuanController extends Controller
     // tampilkan data
     public function index()
     {
-        //get kategori
+        //get pengajuan
         $pengajuan = DB::table('pengajuans')
-            // ->join('users', 'events.id_user', '=', 'users.id')
-            ->join('events', 'pengajuans.id_event', '=', 'events.id')
-            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
-            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras')
-            ->get();
+        ->join('users', 'pengajuans.id_user', '=', 'users.id')
+        ->join('events', 'pengajuans.id_event', '=', 'events.id')
+        ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+        ->where('status_pengajuan', '=', '0')
+        ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
+        ->get();
         // ->paginate(5);
 
         // $pengajuan = Pengajuan::all();

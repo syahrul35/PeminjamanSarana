@@ -22,11 +22,11 @@
                     <tr class="text-center">
                         <th scope="col" class="px-6 py-3">No</th>
                         <th scope="col" class="px-6 py-3">Nama Peminjam</th>
+                        <th scope="col" class="px-6 py-3">Acara</th>
                         <th scope="col" class="px-6 py-3">Nama Sarana</th>
                         <th scope="col" class="px-6 py-3">Tanggal Mulai</th>
                         <th scope="col" class="px-6 py-3">Tanggal Berakhir</th>
-                        <th scope="col" class="px-6 py-3">Acara</th>
-                        {{-- <th scope="col" class="px-6 py-3">Status</th> --}}
+                        <th scope="col" class="px-6 py-3">Status</th>
                         <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
                 </thead>
@@ -35,11 +35,25 @@
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->name }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_mulai }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_akhir }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
-                            {{-- <td class="px-6 py-4">{{ $event->status_peminjaman }}</td> --}}
+                            <td>
+                                @if ($pengajuan->status_pengajuan == 0)
+                                    <div class="bg-amber-300 rounded-md">
+                                        <span class="text-white">Proses</span>
+                                    </div>
+                                @elseif($pengajuan->status_pengajuan == 1)
+                                    <div class="bg-green-500 rounded-md">
+                                        <span class="text-white">Diterima</span>
+                                    </div>
+                                @else
+                                    <div class="bg-rose-500 rounded-md">
+                                        <span class="text-white">Ditolak</span>
+                                    </div>
+                                @endif
+                            </td>
                             <td class="px-6 py-4">
                                 <form  action="{{ route('hapusPeminjaman', $pengajuan->id) }}" method="POST">
                                     <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600">
@@ -73,10 +87,10 @@
                     <tr class="text-center">
                         <th scope="col" class="px-6 py-3">No</th>
                         <th scope="col" class="px-6 py-3">Nama Peminjam</th>
+                        <th scope="col" class="px-6 py-3">Acara</th>
                         <th scope="col" class="px-6 py-3">Nama Sarana</th>
                         <th scope="col" class="px-6 py-3">Tanggal Mulai</th>
                         <th scope="col" class="px-6 py-3">Tanggal Berakhir</th>
-                        <th scope="col" class="px-6 py-3">Acara</th>
                         <th scope="col" class="px-6 py-3">Status</th>
                         <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
@@ -86,20 +100,25 @@
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}.</td>
                             <td class="px-6 py-4">{{ $peminjaman->name }}</td>
+                            <td class="px-6 py-4">{{ $peminjaman->nama_event }}</td>
                             <td class="px-6 py-4">{{ $peminjaman->nama_sarpras }}</td>
                             <td class="px-6 py-4">{{ $peminjaman->tgl_mulai }}</td>
                             <td class="px-6 py-4">{{ $peminjaman->tgl_akhir }}</td>
-                            <td class="px-6 py-4">{{ $peminjaman->nama_event }}</td>
-                            <td class="px-6 py-4">{{ $peminjaman->status_peminjaman }}</td>
+                            <td class="px-6 py-4">
+                                @if ($peminjaman->status_peminjaman == 0)
+                                    <div class="bg-rose-500 rounded-md">
+                                        <span class="text-white">Belum Dikembalikan</span>
+                                    </div>
+                                @else
+                                    <div class="bg-green-500 rounded-md">
+                                        <span class="text-white">Sudah Dikembalikan</span>
+                                    </div>
+                                @endif
+                            </td>
                             <td class="px-6 py-4">
                                 <form  action="{{ route('hapusPeminjaman', $peminjaman->id) }}" method="POST">
-                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600">
+                                    <x-button class="justify-center gap-2">
                                         <span>{{ __('Selesai') }}</span>
-                                    </x-button>
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-button class="justify-center gap-2 bg-red-500 hover:bg-red-600 mt-2">
-                                        <span>{{ __('Batalkan') }}</span>
                                     </x-button>
                                 </form>
                             </td>
