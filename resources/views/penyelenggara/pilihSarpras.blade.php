@@ -50,6 +50,15 @@
                     <div class="md:w-2/3">
                         <input class="form-input block w-full rounded focus:bg-white" id="id_user" type="hidden" value="{{ $event->id_user }}" name="id_user">
                     </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input block w-full rounded focus:bg-white" id="id_user" type="hidden" value="0" name="status_pengajuan">
+                    </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="hidden" value="{{ $event->tgl_mulai }}" name="tgl_mulai">
+                    </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="hidden" value="{{ $event->tgl_akhir }}" name="tgl_akhir">
+                    </div>
                 </div>
     
                 <div class="md:flex mb-4">

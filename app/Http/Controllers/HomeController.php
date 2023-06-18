@@ -62,7 +62,7 @@ class HomeController extends Controller
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
             ->where('status_pengajuan', '=', '0')
             ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
-            ->get();
+            ->latest()->paginate(3);
 
         $peminjaman = DB::table('peminjaman')
             ->join('pengajuans', 'peminjaman.id_pengajuan', '=', 'pengajuans.id')
@@ -71,7 +71,7 @@ class HomeController extends Controller
             ->join('sarpras', 'sarpras.id', '=', 'pengajuans.id_sarpras')
             // ->where('peminjaman.status_peminjaman', '=', '0')
             ->select('peminjaman.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
-            ->get();
+            ->latest()->paginate(3);
 
         return view('admin/dashboardAdmin', compact('pengajuan', 'peminjaman'));
 
@@ -89,7 +89,7 @@ class HomeController extends Controller
     {
         // $this->authorize('admin');
         //get kategori
-        $wewenang = Wewenang::latest()->paginate(5);
+        $wewenang = Wewenang::all();
 
         //render view with kategori
         return view('./admin/wewenang/wewenang', compact('wewenang'));
@@ -99,7 +99,7 @@ class HomeController extends Controller
     {
         // $this->authorize('admin');
         //get kategori
-        $kategori = KategoriSarpras::latest()->paginate(5);
+        $kategori = KategoriSarpras::all();
 
         //render view with kategori
         return view('./admin/kategori/kategoriSarana', compact('kategori'));

@@ -10,6 +10,8 @@ use App\Models\Sarpras;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Carbon;
+
 class EventController extends Controller
 {
     public function index()
@@ -95,12 +97,61 @@ class EventController extends Controller
 
     public function buatPengajuan(Request $request)
     {
-        Pengajuan::create([
-            'id_event' => $request->id_event,
-            'id_sarpras' => $request->id_sarpras,
-            'id_user' => $request->id_user,
-        ]);
+        // Validasi tanggal
+        $tgl_mulai = $request->input('tgl_mulai');
+        $tgl_akhir = $request->input('tgl_akhir');
+        $id_sarpras = $request->input('id_sarpras');
 
-        return redirect('kelolaEvent');
+        $id_user = $request->input('id_user');
+        $id_event = $request->input('id_event');
+
+        // $peminjaman = Pengajuan::where('id_sarpras', $id_sarpras)
+        //     ->where(function ($query) use ($tgl_mulai, $tgl_akhir) {
+        //         $query->whereBetween('tgl_mulai', [$tgl_mulai, $tgl_akhir])
+        //             ->orWhereBetween('tgl_akhir', [$tgl_mulai, $tgl_akhir]);
+        //     })->first();
+
+        // Cek ketersediaan tanggal
+        // $events = Events::whereDate('tgl_mulai', '>=', Carbon::parse($tgl_mulai)->toDateString())
+        //     ->whereDate('tgl_akhir', '<=', Carbon::parse($tgl_akhir)->toDateString())
+        //     ->get();
+
+        // Cek ketersediaan tanggal
+        $events = Events::where(function ($query) use ($tgl_mulai, $tgl_akhir) {
+                    $query->where('tgl_mulai', '>=', $tgl_mulai)
+                        ->where('tgl_mulai', '<=', $tgl_akhir);
+                })->orWhere(function ($query) use ($tgl_mulai, $tgl_akhir) {
+                    $query->where('tgl_akhir', '>=', $tgl_mulai)
+                        ->where('tgl_akhir', '<=', $tgl_akhir);
+                })->orWhere(function ($query) use ($tgl_mulai, $tgl_akhir) {
+                    $query->where('tgl_mulai', '<=', $tgl_mulai)
+                        ->where('tgl_akhir', '>=', $tgl_akhir);
+                })->orWhere(function ($query) use ($tgl_mulai, $tgl_akhir) {
+                    $query->where('tgl_mulai', '>=', $tgl_mulai)
+                        ->where('tgl_akhir', '<=', $tgl_akhir);
+                })->get();
+
+        // Cek ketersediaan tanggal
+        if ($events->count() > 0) {
+            // Barang tidak dapat dibooking pada tanggal tersebut
+            return redirect()->back()->with('error', 'Barang tidak tersedia pada tanggal tersebut.');
+        } else {
+            // return redirect()->back()->with('success', 'Booking berhasil.');
+            Pengajuan::create([
+                'id_event' => $request->id_event,
+                'id_sarpras' => $request->id_sarpras,
+                'id_user' => $request->id_user,
+                'status_pengajuan' => $request->status_pengajuan,
+            ]);
+            return redirect('kelolaEvent');
+        }
+
+        // Pengajuan::create([
+        //     'id_event' => $request->id_event,
+        //     'id_sarpras' => $request->id_sarpras,
+        //     'id_user' => $request->id_user,
+        // ]);
+
+        // return redirect('kelolaEvent');
     }
 }

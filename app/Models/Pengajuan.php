@@ -13,5 +13,6 @@ class Pengajuan extends Model
         'id_sarpras',
         'id_event',
         'id_user',
+        'status_pengajuan'
     ];
 }
