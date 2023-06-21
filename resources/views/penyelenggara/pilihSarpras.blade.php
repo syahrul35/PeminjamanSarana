@@ -35,6 +35,16 @@
         <!--Card-->
         <div id='section2' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
 
+            <!-- Tampilkan pesan kesalahan -->
+            @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form action="{{ route('buatPengajuan', $event) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('post')
@@ -54,10 +64,10 @@
                         <input class="form-input block w-full rounded focus:bg-white" id="id_user" type="hidden" value="0" name="status_pengajuan">
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="hidden" value="{{ $event->tgl_mulai }}" name="tgl_mulai">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="hidden" value="{{ $event->tgl_mulai }}" name="tgl_peminjaman">
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="hidden" value="{{ $event->tgl_akhir }}" name="tgl_akhir">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="hidden" value="{{ $event->tgl_akhir }}" name="tgl_pengembalian">
                     </div>
                 </div>
     

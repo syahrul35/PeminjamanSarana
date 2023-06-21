@@ -10,6 +10,7 @@ use App\Http\Controllers\KategoriSarprasController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PenyelenggaraController;
+use App\Http\Controllers\PilihSarprasController;
 use App\Http\Controllers\SarprasController;
 use App\Http\Controllers\WewenangController;
 use App\Models\KategoriSarpras;
@@ -44,8 +45,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/kelolaEvent/{id}', [EventController::class, 'edit'])->name('editEvent');
     Route::delete('kelolaEvent/{event}/delete', [EventController::class, 'destroy'])->name('hapusEvent');
 
-    Route::get('/pilihSarpras/{id}', [EventController::class, 'pilihSarpras'])->name('pilihSarpras');
-    Route::post('/buatPengajuan', [EventController::class, 'buatPengajuan'])->name('buatPengajuan');
+    // Route::get('/pilihSarpras/{id}', [EventController::class, 'pilihSarpras'])->name('pilihSarpras');
+    // Route::post('/buatPengajuan', [EventController::class, 'buatPengajuan'])->name('buatPengajuan');
+});
+
+// pilih Sarana dan Prasarana
+Route::middleware(['auth', 'user-access:user'])->group(function () {
+    Route::get('/pilihSarpras/{id}', [PilihSarprasController::class, 'index'])->name('pilihSarpras');
+    Route::post('/buatPengajuan', [PilihSarprasController::class, 'store'])->name('buatPengajuan');
 });
 
 // admin
