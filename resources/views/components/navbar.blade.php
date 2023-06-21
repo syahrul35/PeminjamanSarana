@@ -71,6 +71,7 @@
                                 clip-rule="evenodd"
                             />
                         </svg>
+                        {{-- <img src="unhasy.png" alt="" style="max-width: 3.5em"> --}}
                     </div>
                 </button>
             </x-slot>
@@ -107,11 +108,11 @@
         'translate-y-0': scrollingUp,
     }"
 >
-    <a href="{{ route('dashboardAdmin') }}">
+    {{-- <a href="{{ route('dashboardAdmin') }}">
         <x-application-logo aria-hidden="true" class="w-10 h-10" />
 
         <span class="sr-only">Dashboard</span>
-    </a>
+    </a> --}}
 
     <x-button
         type="button"

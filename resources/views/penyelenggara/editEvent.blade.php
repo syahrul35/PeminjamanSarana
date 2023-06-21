@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tambah Event</title>
+    <title>Edit Event</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
@@ -30,7 +30,7 @@
 <body class="bg-gray-100 text-gray-900 tracking-wider leading-normal m-4 my-4 justify-center">
     
 <!--Title-->
-<h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Tambah Event</h2>
+<h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Edit Event</h2>
 
         <!--Card-->
         <div id='section2' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">

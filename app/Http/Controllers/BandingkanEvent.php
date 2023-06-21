@@ -53,81 +53,104 @@ class BandingkanEvent extends Controller
         $pengeluaran2 = $request->input('pengeluaran2');
         $pendapatan2 = $request->input('pendapatan2');
 
-        $matriks_keputusan = array(
+        $inputs = array(
             array($jumlah_peserta1, $pemateri1, $undangan1, $pengeluaran1, $pendapatan1),
             array($jumlah_peserta2, $pemateri2, $undangan2, $pengeluaran2, $pendapatan2)
         );
 
-        $bobot_kriteria = array(5, 5, 4, 3, 3);
+        $weights = array(5, 5, 4, 3, 3);
+        $criteriaTypes = ['benefit', 'benefit', 'benefit', 'cost', 'benefit'];
 
-        // Step 1: Normalisasi matriks keputusan
-        $normalisasi_matriks = array();
-        $m = count($matriks_keputusan);
-        $n = count($matriks_keputusan[0]);
+        // Validasi bobot
+        $totalWeights = array_sum($weights);
+        if ($totalWeights !== 20) {
+            die("Total bobot harus bernilai 20.");
+        }
 
-        for ($j = 0; $j < $n; $j++) {
-            $col = array_column($matriks_keputusan, $j);
-            $sum_squares = 0;
+        // Validasi inputan
+        $inputCount = count($inputs);
+        if ($inputCount < 2) {
+            die("Minimal dua inputan diperlukan.");
+        }
 
-            for ($i = 0; $i < $m; $i++) {
-                $sum_squares += pow($matriks_keputusan[$i][$j], 2);
+        $attributeCount = count($weights);
+        foreach ($inputs as $input) {
+            if (count($input) !== $attributeCount) {
+                die("Jumlah atribut pada inputan tidak sesuai dengan jumlah bobot.");
             }
+        }
 
-            $sqrt_sum_squares = sqrt($sum_squares);
+        // Normalisasi matriks keputusan
+        $normalizedMatrix = [];
+        for ($i = 0; $i < $attributeCount; $i++) {
+            $sumSquared = 0;
+            for ($j = 0; $j < $inputCount; $j++) {
+                $sumSquared += $inputs[$j][$i] * $inputs[$j][$i];
+            }
+            $sqrtSum = sqrt($sumSquared);
+            $column = [];
+            for ($j = 0; $j < $inputCount; $j++) {
+                $column[] = $inputs[$j][$i] / $sqrtSum;
+            }
+            $normalizedMatrix[] = $column;
+        }
 
-            for ($i = 0; $i < $m; $i++) {
-                $normalisasi_matriks[$i][$j] = round(($matriks_keputusan[$i][$j] / $sqrt_sum_squares) * $bobot_kriteria[$j], 4);
+        // Matriks keputusan terbobot
+        $weightedMatrix = [];
+        for ($i = 0; $i < $attributeCount; $i++) {
+            $column = [];
+            for ($j = 0; $j < $inputCount; $j++) {
+                $column[] = $normalizedMatrix[$i][$j] * $weights[$i];
+            }
+            $weightedMatrix[] = $column;
+        }
+
+        // Solusi ideal positif dan negatif
+        $idealPositive = [];
+        $idealNegative = [];
+        for ($i = 0; $i < $attributeCount; $i++) {
+            $maxValue = max($weightedMatrix[$i]);
+            $minValue = min($weightedMatrix[$i]);
+            if ($criteriaTypes[$i] === 'benefit') {
+                $idealPositive[] = $maxValue;
+                $idealNegative[] = $minValue;
+            } else if ($criteriaTypes[$i] === 'cost') {
+                $idealPositive[] = $minValue;
+                $idealNegative[] = $maxValue;
+            } else {
+                die("Tipe kriteria tidak valid.");
             }
         }
 
-        // Step 2: Menghitung matriks solusi ideal positif (A+) dan matriks solusi ideal negatif (A-)
-        $a_plus = array();
-        $a_minus = array();
-
-        for ($j = 0; $j < $n; $j++) {
-            $col = array_column($normalisasi_matriks, $j);
-            $a_plus[$j] = max($col);
-            $a_minus[$j] = min($col);
-        }
-
-        // Step 3: Menghitung jarak alternatif terhadap solusi ideal positif (D+)
-        $d_plus = array();
-
-        for ($i = 0; $i < $m; $i++) {
-            $sum = 0;
-
-            for ($j = 0; $j < $n; $j++) {
-                $sum += pow($normalisasi_matriks[$i][$j] - $a_plus[$j], 2);
+        // Jarak solusi
+        $positiveDistances = [];
+        $negativeDistances = [];
+        for ($i = 0; $i < $inputCount; $i++) {
+            $positiveDistance = 0;
+            $negativeDistance = 0;
+            for ($j = 0; $j < $attributeCount; $j++) {
+                $positiveDistance += pow($weightedMatrix[$j][$i] - $idealPositive[$j], 2);
+                $negativeDistance += pow($weightedMatrix[$j][$i] - $idealNegative[$j], 2);
             }
-
-            $d_plus[$i] = sqrt($sum);
+            $positiveDistances[] = sqrt($positiveDistance);
+            $negativeDistances[] = sqrt($negativeDistance);
         }
 
-        // Step 4: Menghitung jarak alternatif terhadap solusi ideal negatif (D-)
-        $d_minus = array();
-
-        for ($i = 0; $i < $m; $i++) {
-            $sum = 0;
-
-            for ($j = 0; $j < $n; $j++) {
-                $sum += pow($normalisasi_matriks[$i][$j] - $a_minus[$j], 2);
-            }
-
-            $d_minus[$i] = sqrt($sum);
+        // Preferensi relatif
+        $preferences = [];
+        for ($i = 0; $i < $inputCount; $i++) {
+            $preferences[] = $negativeDistances[$i] / ($negativeDistances[$i] + $positiveDistances[$i]);
         }
 
-        // Step 5: Menghitung nilai preferensi (V)
-        $v = array();
-
-        for ($i = 0; $i < $m; $i++) {
-            $v[$i] = round($d_minus[$i] / ($d_plus[$i] + $d_minus[$i]), 4);
+        // Normalisasi preferensi relatif
+        $sumPreferences = array_sum($preferences);
+        $normalizedPreferences = [];
+        foreach ($preferences as $preference) {
+            $normalizedPreferences[] = round($preference / $sumPreferences, 4);
         }
 
-        
-        // Output
-        // return $v;
-        $this->hasil = $v;
-        return redirect('/admin/bandingkanEvent');
-        // dd($this->hasil);
+        return view('admin.hasil', [
+         'results' => $normalizedPreferences   
+        ]);
     }
 }

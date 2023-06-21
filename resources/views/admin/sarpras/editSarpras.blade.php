@@ -32,7 +32,7 @@
     <section class="w-full lg:w-4/5">
 
         <!--Title-->
-        <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Tambah Kategori</h2>
+        <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Edit Sarana dan Prasarana</h2>
 
         <!--Card-->
         <div id='section2' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">

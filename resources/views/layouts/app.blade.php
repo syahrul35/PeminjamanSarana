@@ -60,7 +60,7 @@
                 </main>
 
                 <!-- Page Footer -->
-                <x-footer />
+                
             </div>
         </div>
     </div>

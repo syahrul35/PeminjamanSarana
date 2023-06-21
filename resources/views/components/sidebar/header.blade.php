@@ -1,8 +1,10 @@
 <div class="flex items-center justify-between flex-shrink-0 px-3">
     <!-- Logo -->
     <a href="{{ route('dashboardAdmin') }}" class="inline-flex items-center gap-2">
-        {{-- <x-application-logo aria-hidden="true" class="w-10 h-auto" /> --}}
+        <img src="/unhasy.png" alt="" aria-hidden="true" class="w-10 h-10">
+        {{-- <x-application-logo aria-hidden="true" class="w-10 h-10" /> --}}
 
+        {{-- <img src="unhasy.png" alt="" style="max-width: 3.5em"> --}}
         <span class="sr-only">Dashboard</span>
     </a>
 

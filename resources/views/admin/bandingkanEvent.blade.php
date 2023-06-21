@@ -25,8 +25,10 @@
             <x-button name="generate" type="submit">{{ __('Submit') }}</x-button>
         </form>
 
+        
+
         {{-- event --}}
-        <form action="{{route('rumus')}}" method="POST">      
+        <form action="{{route('rumus')}}" method="GET">      
         @csrf
         <div class="rounded overflow-hidden shadow-lg bg-zinc-300">
             @if (isset($_POST['generate']))
@@ -201,42 +203,16 @@
                 </div>
             </div>
             @endif
-        
-                {{-- tombol Hitung --}}
-            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mt-2">
-                <x-button class="justify-center gap-2" name="hitung">
-                    <x-heroicon-s-plus-small class="w-6 h-6" aria-hidden="true" />
-                    <span>{{ __('Hitung') }}</span>
-                </x-button>
-            </div>
-        </form>
 
-        <div class="py-2 mt-8 max-w-[50%]">
-            <div class="overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
-                    <thead class="text-xs uppercase bg-sky-200 dark:bg-gray-700">
-                        <tr class="text-center">
-                            <th scope="col" class="px-6 py-3">No</th>
-                            <th scope="col" class="px-6 py-3">Nama Acara</th>
-                            <th scope="col" class="px-6 py-3">Hasil</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{-- @dd($results) --}}
-                        {{-- @foreach($results as $result)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
-                            <td class="px-6 py-4">1.</td>
-                            <td class="px-6 py-4">Event 1</td>
-                            <td class="px-6 py-4">$result</td>
-                        </tr>
-                        @endforeach --}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
-        
-        
+            <div class="mt-2">
+                <a href="/admin/hasil">
+                    <x-button class="justify-center gap-2">
+                        <x-heroicon-s-plus-small class="w-6 h-6" aria-hidden="true" />
+                        <span>{{ __('hasil') }}</span>
+                    </x-button>
+                </a>
+            </div>   
+        </form>     
     </div>
 
 </x-app-layout>
