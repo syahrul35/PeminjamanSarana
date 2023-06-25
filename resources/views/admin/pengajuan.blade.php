@@ -20,12 +20,28 @@
                             <th scope="col" class="px-6 py-3">Nama Sarana</th>
                             <th scope="col" class="px-6 py-3">Tanggal Mulai</th>
                             <th scope="col" class="px-6 py-3">Tanggal Berakhir</th>
-                            {{-- <th scope="col" class="px-6 py-3">Status</th> --}}
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Tampilkan pesan sukses -->
+                        @if (session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                            {{ session('success') }}
+                        </div>
+                        @endif
+                        <!-- Tampilkan pesan kesalahan -->
+                        @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         @forelse ( $pengajuan as $pengajuan)
+
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->name }}</td>
@@ -33,14 +49,25 @@
                             <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_mulai }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->tgl_akhir }}</td>
-                            {{-- <td class="px-6 py-4">{{ $event->status_peminjaman }}</td> --}}
                             <td class="px-6 py-4">
-                                <form  action="{{ route('hapusPeminjaman', $pengajuan->id) }}" method="POST">
-                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600">
+                                {{-- tombol terima --}}
+                                <form action="{{ route('terimaPengajuan', $pengajuan->id) }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <input type="hidden" name="id_sarpras" value="{{ $pengajuan->id_sarpras }}">
+                                    <input type="hidden" name="id_event" value="{{ $pengajuan->id_event }}">
+                                    <input type="hidden" name="id_user" value="{{ $pengajuan->id_user }}">
+
+                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600" type="submit">
                                         <span>{{ __('Terima') }}</span>
                                     </x-button>
+                                </form>
+
+                                {{-- tombol tolak --}}
+                                <form action="{{ route('tolakPengajuan', $pengajuan->id) }}" method="post" type="submit">
                                     @csrf
-                                    @method('DELETE')
+                                    @method('PUT')
                                     <x-button class="justify-center gap-2 bg-red-500 hover:bg-red-600 mt-2">
                                         <span>{{ __('Tolak') }}</span>
                                     </x-button>

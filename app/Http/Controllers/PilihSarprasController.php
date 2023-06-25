@@ -24,33 +24,14 @@ class PilihSarprasController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'id_sarpras' => 'required|exists:sarpras,id',
-            'id_event' => 'required|exists:events,id',
-            'id_user' => 'required|exists:users,id',
+        Pengajuan::create([
+            'id_event' => $request->id_event,
+            'id_sarpras' => $request->id_sarpras,
+            'id_user' => $request->id_user,
+            'tgl_peminjaman' => $request->tgl_peminjaman,
+            'tgl_pengembalian' => $request->tgl_pengembalian,
+            'status_pengajuan' => $request->status_pengajuan,
         ]);
-
-        $peminjamanDates = Pengajuan::getPeminjamanDates($validatedData['id_event']);
-
-        $validatedData['tgl_mulai'] = $peminjamanDates['tgl_peminjaman'];
-        $validatedData['tgl_akhir'] = $peminjamanDates['tgl_pengembalian'];
-
-        $peminjaman = new Pengajuan($validatedData);
-
-        if (!$peminjaman->isSaranaAvailable(
-            $peminjamanDates['tgl_peminjaman'],
-            $peminjamanDates['tgl_pengembalian'],
-            // $request->id_user,
-            $request->id_sarpras,
-            // $request->id_event,
-            // $request->status_pengajuan,
-        )) {
-            return back()->withErrors(['Sarana tidak tersedia pada tanggal yang dipilih.']);
-        }
-
-        $peminjaman->status_pengajuan = '0';
-        $peminjaman->save();
-
-        return redirect()->route('kelolaEvent')->with('success', 'Peminjaman berhasil dibuat.');
+        return redirect('/');
     }
 }

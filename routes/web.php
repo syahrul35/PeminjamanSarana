@@ -15,6 +15,7 @@ use App\Http\Controllers\SarprasController;
 use App\Http\Controllers\WewenangController;
 use App\Models\KategoriSarpras;
 use App\Models\Peminjaman;
+use App\Models\Pengajuan;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,23 +119,22 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/admin/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
     Route::get('/admin/tambahPengajuan', [PengajuanController::class, 'create'])->name('tambahPengajuan');
-    Route::delete('/admin/{id}/delete', [PengajuanController::class, 'destroy'])->name('hapusPengajuan');
+    Route::put('/admin/terima-pengajuan/{id}', [PengajuanController::class, 'terimaPengajuan'])->name('terimaPengajuan');
+    Route::put('/admin/tolak-pengajuan/{id}', [PengajuanController::class, 'tolakPengajuan'])->name('tolakPengajuan');
+    // Route::put('/admin/{id}/delete', [PengajuanController::class, 'terimaPengajuan'])->name('terimaPengajuan');
 });
 
 // kelola peminjaman
 Route::middleware('auth')->group(function () {
     Route::get('/admin/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
-    Route::delete('/kelolaPeminjaman/{id}/delete', [PeminjamanController::class, 'destroy'])->name('hapusPeminjaman');
+    Route::put('/admin/terima-pengembalian/{id}', [PeminjamanController::class, 'terimaPengembalian'])->name('terimaPengembalian');
 });
 
 //bandingkan event
 Route::middleware('auth')->group(function () {
     Route::get('/admin/bandingkanEvent', [BandingkanEvent::class, 'index'])->name('bandingkanEvent');
     Route::post('/admin/bandingkanEvent', [BandingkanEvent::class, 'index'])->name('bandingkanEvent');
-    // Route::get('/admin/rumus', [BandingkanEvent::class, 'rumus'])->name('rumus');
     Route::get('/admin/hasil', [BandingkanEvent::class, 'rumus'])->name('rumus');
-    // Route::get('/bandingkanEvent/{id}', [BandingkanEvent::class, 'getEventById']);
-    // Route::delete('/BandingkanEvent/{id}/delete', [BandingkanEvent::class, 'destroy'])->name('hapusBandingkanEvent');
 });
 
 

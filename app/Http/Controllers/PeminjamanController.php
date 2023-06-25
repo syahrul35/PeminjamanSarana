@@ -30,15 +30,12 @@ class PeminjamanController extends Controller
         return view('./admin/peminjaman', compact('peminjaman'));
     }
 
-    public function destroy($id): RedirectResponse
+    public function terimaPengembalian($id)
     {
-        //get pengajuan by ID
         $peminjaman = Peminjaman::findOrFail($id);
+        $peminjaman->status_peminjaman = 1;
+        $peminjaman->save();
 
-        //delete peminjaman
-        $peminjaman->delete();
-
-        //redirect to index
-        return redirect()->route('./admin/peminjaman');
+        return redirect()->back()->with('success', 'Sarana Telah Dikembalikan!');
     }
 }

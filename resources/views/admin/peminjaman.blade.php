@@ -12,6 +12,12 @@
 
         <div class="py-2">
             <div class="overflow-x-auto shadow-md sm:rounded-lg">
+                <!-- Tampilkan pesan sukses -->
+                @if (session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    {{ session('success') }}
+                @endif
+                </div>
                 <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                     <thead class="text-xs uppercase bg-sky-200 dark:bg-gray-700">
                         <tr class="text-center">
@@ -46,7 +52,9 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                <form  action="{{ route('hapusPeminjaman', $peminjaman->id) }}" method="POST">
+                                <form action="{{ route('terimaPengembalian', $peminjaman->id) }}" method="post" type="submit">
+                                    @csrf
+                                    @method('PUT')
                                     <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
                                         <span>{{ __('Selesai') }}</span>
                                     </x-button>
