@@ -54,41 +54,47 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::findOrFail($id);
 
-        // Validasi data
-        $validatedData = $request->validate([
-            'id_sarpras' => 'required|exists:sarpras,id',
-            'id_event' => 'required|exists:events,id',
+        $request->validate([
+            'tgl_peminjaman' => [
+                'required',
+                function ($attribute, $value, $fail) use ($id, $request) {
+                    $pengajuan = Pengajuan::findOrFail($id);
+                    $idSarpras = $pengajuan->id_sarpras;
+
+                    $existingPengajuanPeminjaman = Peminjaman::where('id_pengajuan', $id)
+                        ->where('tgl_peminjaman', $value)
+                        ->exists();
+
+                    if ($existingPengajuanPeminjaman) {
+                        $fail('tgl peminjaman bentrok dengan peminjaman pada pengajuan ini.');
+                    }
+
+                    $existingPeminjaman = Peminjaman::join('pengajuans', 'peminjaman.id_pengajuan', '=', 'pengajuans.id')
+                        ->where('peminjaman.tgl_peminjaman', $value)
+                        ->where('pengajuans.id_sarpras', $idSarpras)
+                        ->exists();
+
+                    if ($existingPeminjaman) {
+                        $fail('Tanggal peminjaman bentrok dengan peminjaman yang ada.');
+                    }
+                },
+            ],
         ]);
 
-        // Dapatkan tanggal peminjaman dari pengajuan
-        $peminjamanDates = $pengajuan->getPeminjamanDates($validatedData['id_event']);
-
-        // Setel tanggal mulai dan tanggal akhir pada validatedData
-        $validatedData['tgl_mulai'] = $peminjamanDates['tgl_peminjaman'];
-        $validatedData['tgl_akhir'] = $peminjamanDates['tgl_pengembalian'];
-
-        // Buat objek Peminjaman baru
-        $peminjaman = new Pengajuan($validatedData);
-
-        // Validasi ketersediaan sarana pada tanggal yang dipilih
-        if (!$peminjaman->isSaranaAvailable(
-            $peminjamanDates['tgl_peminjaman'],
-            $peminjamanDates['tgl_pengembalian'],
-            $validatedData['id_sarpras'],
-        )) {
-            return back()->withErrors(['Sarana tidak tersedia pada tanggal yang dipilih.']);
-        }
-
-        $pengajuan->status_pengajuan = 1;
-        $pengajuan->save();
-
-        // Simpan data ke tabel peminjaman
+        // Simpan data peminjaman jika valid
         $peminjaman = new Peminjaman();
         $peminjaman->id_pengajuan = $pengajuan->id;
+        $peminjaman->tgl_peminjaman = $request->tgl_peminjaman;
         $peminjaman->save();
 
+        // Update status_peminjaman di tabel pengajuan
+        $pengajuan->status_pengajuan = '1';
+        $pengajuan->save();
+
+        // penyimpanan berhasil
         return redirect()->back()->with('success', 'Pengajuan diterima dan disimpan ke tabel peminjaman.');
     }
+    
 
     public function tolakPengajuan($id)
     {

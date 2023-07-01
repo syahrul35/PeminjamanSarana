@@ -25,7 +25,7 @@
                             <th scope="col" class="px-6 py-3">No</th>
                             <th scope="col" class="px-6 py-3">Acara</th>
                             <th scope="col" class="px-6 py-3">Nama Sarana</th>
-                            <th scope="col" class="px-6 py-3">Nama Wewenang</th>
+                            <th scope="col" class="px-6 py-3">Wewenang</th>
                             <th scope="col" class="px-6 py-3">Telepon</th>
                             <th scope="col" class="px-6 py-3">Status</th>
                             <th scope="col" class="px-6 py-3">Cetak</th>
@@ -56,14 +56,12 @@
                             </td>
                             <td>
                                 @if($pengajuan->status_pengajuan == 1)
-                                {{-- <form action="{{ route('cetak', $pengajuan->id) }}" method="post" type="submit">
-                                    @csrf
-                                    @method('POST')
-                                    <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
-                                        <span>{{ __('Cetak') }}</span>
-                                    </x-button>
-                                </form> --}}
                                 <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">Cetak Data</a>
+                            <td class="px-6 py-4">
+                                @if($pengajuan->status_pengajuan == 1)
+                                <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">
+                                    Cetak</a>
+
                                 @endif
                             </td>
                             

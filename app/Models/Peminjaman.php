@@ -10,11 +10,10 @@ class Peminjaman extends Model
     use HasFactory;
 
     protected $table = 'peminjaman';
+    protected $fillable = ['pengajuan_id'];
 
-    protected $fillable = [
-        'id_user',
-        'id_event',
-        'id_sarpras',
-        'status_peminjaman'
-    ];
+    public function pengajuan()
+    {
+        return $this->belongsTo(Pengajuan::class);
+    }
 }

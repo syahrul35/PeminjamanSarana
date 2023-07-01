@@ -13,8 +13,6 @@ class Pengajuan extends Model
         'id_sarpras',
         'id_event',
         'id_user',
-        'tgl_peminjaman',
-        'tgl_pengembalian',
         'status_pengajuan'
     ];
 
@@ -28,6 +26,7 @@ class Pengajuan extends Model
         return $this->belongsTo(Events::class, 'id_event');
     }
 
+<<<<<<< HEAD
     public function isSaranaAvailable($tglPeminjaman, $tglPengembalian, $idSarana)
     {
         // dd($tglPeminjaman, $tglPengembalian, $idSarana);
@@ -62,4 +61,35 @@ class Pengajuan extends Model
             'tgl_pengembalian' => $event->tgl_akhir,
         ];
     }
+=======
+    // public function isSaranaAvailable($tglPeminjaman, $tglPengembalian, $idSarana)
+    // {
+    //     $tglPeminjaman = date('Y-m-d H:i:s', strtotime($tglPeminjaman));
+    //     $tglPengembalian = date('Y-m-d H:i:s', strtotime($tglPengembalian));
+    
+    //     $existingBooking = $this->where('id_sarpras', $idSarana)
+    //         ->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
+    //             $query->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
+    //                 $query->where('tgl_peminjaman', '<=', $tglPengembalian)
+    //                     ->where('tgl_pengembalian', '>=', $tglPeminjaman);
+    //             })
+    //             ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
+    //                 $query->where('tgl_peminjaman', '>=', $tglPeminjaman)
+    //                     ->where('tgl_pengembalian', '<=', $tglPengembalian);
+    //             });
+    //         })
+    //         ->where('id', '<>', $this->id) // Exclude the current Pengajuan
+    //         ->exists();
+    
+    //     return !$existingBooking;
+    // }
+   
+    // public function getPeminjamanDates()
+    // {
+    //     return [
+    //         'tgl_peminjaman' => $this->tgl_mulai,
+    //         'tgl_pengembalian' => $this->tgl_akhir,
+    //     ];
+    // }
+>>>>>>> a78e4d8 (perbaikan fitur peminjaman)
 }

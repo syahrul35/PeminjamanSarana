@@ -58,6 +58,7 @@
                                     <input type="hidden" name="id_sarpras" value="{{ $pengajuan->id_sarpras }}">
                                     <input type="hidden" name="id_event" value="{{ $pengajuan->id_event }}">
                                     <input type="hidden" name="id_user" value="{{ $pengajuan->id_user }}">
+                                    <input type="hidden" name="tgl_peminjaman" id="" value="{{$pengajuan->tgl_mulai}}">
 
                                     <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600" type="submit">
                                         <span>{{ __('Terima') }}</span>

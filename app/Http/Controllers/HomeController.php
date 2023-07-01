@@ -16,7 +16,6 @@ use App\Models\Events;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 
-
 class HomeController extends Controller
 {
     /**

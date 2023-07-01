@@ -28,8 +28,8 @@ class PilihSarprasController extends Controller
             'id_event' => $request->id_event,
             'id_sarpras' => $request->id_sarpras,
             'id_user' => $request->id_user,
-            'tgl_peminjaman' => $request->tgl_peminjaman,
-            'tgl_pengembalian' => $request->tgl_pengembalian,
+            // 'tgl_peminjaman' => $request->tgl_peminjaman,
+            // 'tgl_pengembalian' => $request->tgl_pengembalian,
             'status_pengajuan' => $request->status_pengajuan,
         ]);
         return redirect('/');

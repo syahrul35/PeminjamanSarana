@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_pengajuan')->unsigned();
             $table->foreign('id_pengajuan')->references('id')->on('pengajuans');
+            $table->date('tgl_peminjaman');
             $table->tinyInteger('status_peminjaman')->default(0);
             $table->timestamps();
         });
