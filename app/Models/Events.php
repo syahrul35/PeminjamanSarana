@@ -29,9 +29,4 @@ class Events extends Model
     {
         return self::findOrFail($id);
     }
-
-    // public function get()
-    // {
-    //     return $this->belongsTo('App\\User', 'id');
-    // }
 }

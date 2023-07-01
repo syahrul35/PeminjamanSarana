@@ -35,6 +35,7 @@ use App\Models\Pengajuan;
 // Penyelenggara
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboardPenyelenggara');
+    Route::get('/cetak/{id}', [HomeController::class, 'cetak'])->name('cetak');
 });
 
 // event
@@ -82,7 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/kelolaPenyelenggara', [PenyelenggaraController::class, 'store'])->name('simpanPenyelenggara');
     Route::patch('/penyelenggara/{name}/edit', [PenyelenggaraController::class, 'update'])->name('updatePenyelenggara');
     Route::get('/penyelenggara/{id}/', [PenyelenggaraController::class, 'edit'])->name('editPenyelenggara');
-    Route::delete('/penyelenggara/{name}/delete', [PenyelenggaraController::class, 'destroy'])->name('hapusPenyelenggara');
+    Route::delete('/penyelenggara/{nama_penyelenggara}/delete', [PenyelenggaraController::class, 'destroy'])->name('hapusPenyelenggara');
 });
 
 //  wewenang

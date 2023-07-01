@@ -13,6 +13,10 @@ class Sarpras extends Model
         'id_kategori',
         'id_wewenang',
         'nama_sarpras',
-        'jumlah',
     ];
+
+    public function pengajuan()
+    {
+        return $this->hasMany(Pengajuan::class);
+    }
 }

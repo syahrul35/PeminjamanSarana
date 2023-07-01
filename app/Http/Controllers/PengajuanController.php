@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Sarpras;
 use App\Models\Events;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Validation\Rule;
 
 class PengajuanController extends Controller
 {
@@ -23,7 +24,15 @@ class PengajuanController extends Controller
             ->join('events', 'pengajuans.id_event', '=', 'events.id')
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
             ->where('status_pengajuan', '=', '0')
-            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
+            ->select(
+                'pengajuans.*',
+                'events.nama_event',
+                'events.tgl_mulai',
+                'events.id_user',
+                'events.tgl_akhir',
+                'sarpras.nama_sarpras',
+                'users.name'
+            )
             ->get();
         // ->paginate(5);
 
@@ -41,35 +50,6 @@ class PengajuanController extends Controller
         ]);
     }
 
-    // public function terima(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'id_sarpras' => 'required|exists:sarpras,id',
-    //         'id_event' => 'required|exists:events,id',
-    //         'id_user' => 'required|exists:users,id',
-    //     ]);
-
-    //     $peminjamanDates = Pengajuan::getPeminjamanDates($validatedData['id_event']);
-
-    //     $validatedData['tgl_mulai'] = $peminjamanDates['tgl_peminjaman'];
-    //     $validatedData['tgl_akhir'] = $peminjamanDates['tgl_pengembalian'];
-
-    //     $peminjaman = new Pengajuan($validatedData);
-
-    //     if (!$peminjaman->isSaranaAvailable(
-    //         $peminjamanDates['tgl_peminjaman'],
-    //         $peminjamanDates['tgl_pengembalian'],
-    //         $request->id_sarpras,
-    //     )) {
-    //         return back()->withErrors(['Sarana tidak tersedia pada tanggal yang dipilih.']);
-    //     }
-
-    //     // $peminjaman->status_pengajuan = '0';
-    //     $peminjaman->save();
-
-    //     return redirect()->route('./amdin/pengajuan')->with('success', 'Peminjaman berhasil dibuat.');
-    // }
-
     public function terimaPengajuan(Request $request, $id)
     {
         $pengajuan = Pengajuan::findOrFail($id);
@@ -78,7 +58,6 @@ class PengajuanController extends Controller
         $validatedData = $request->validate([
             'id_sarpras' => 'required|exists:sarpras,id',
             'id_event' => 'required|exists:events,id',
-            'id_user' => 'required|exists:users,id',
         ]);
 
         // Dapatkan tanggal peminjaman dari pengajuan
@@ -95,10 +74,11 @@ class PengajuanController extends Controller
         if (!$peminjaman->isSaranaAvailable(
             $peminjamanDates['tgl_peminjaman'],
             $peminjamanDates['tgl_pengembalian'],
-            $validatedData['id_sarpras']
+            $validatedData['id_sarpras'],
         )) {
             return back()->withErrors(['Sarana tidak tersedia pada tanggal yang dipilih.']);
         }
+
         $pengajuan->status_pengajuan = 1;
         $pengajuan->save();
 

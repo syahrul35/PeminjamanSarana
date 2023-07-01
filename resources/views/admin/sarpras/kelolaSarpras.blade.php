@@ -25,10 +25,8 @@
                         <tr class="text-center">
                             <th scope="col" class="px-6 py-3">No</th>
                             <th scope="col" class="px-6 py-3">Nama Sarana</th>
-                            <th scope="col" class="px-6 py-3">Jumlah</th>
                             <th scope="col" class="px-6 py-3">Wewenang</th>
                             <th scope="col" class="px-6 py-3">No HP</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
@@ -37,10 +35,8 @@
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}.</td>
                             <td class="px-6 py-4">{{ $sarpras->nama_sarpras }}</td>
-                            <td class="px-6 py-4">{{ $sarpras->jumlah }}</td>
                             <td class="px-6 py-4">{{ $sarpras->nama_wewenang }}</td>
                             <td class="px-6 py-4">{{ $sarpras->telp_wewenang }}</td>
-                            <td class="px-6 py-4">{{ $sarpras->status }}</td>
                             <td class="px-6 py-4">
                                 <form action="{{ route ('editSarpras',$sarpras->id)}}" method="get">
                                     {{ csrf_field() }}

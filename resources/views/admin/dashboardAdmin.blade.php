@@ -7,13 +7,30 @@
         </div>
     </x-slot>
 
-    <hr class="h-2 border-2">
+    <hr class="h-2">
 
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between pt-4">
         <h2 class="text-xl font-semibold leading-tight">
             {{ __('Daftar Pengajuan') }}
         </h2>
     </div>
+
+    <!-- Tampilkan pesan sukses -->
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        {{ session('success') }}
+    </div>
+    @endif
+    <!-- Tampilkan pesan kesalahan -->
+    @if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 
     <div class="py-2">
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
@@ -55,12 +72,24 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                <form  action="{{ route('hapusPeminjaman', $pengajuan->id) }}" method="POST">
-                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600">
+                                {{-- tombol terima --}}
+                                <form action="{{ route('terimaPengajuan', $pengajuan->id) }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <input type="hidden" name="id_sarpras" value="{{ $pengajuan->id_sarpras }}">
+                                    <input type="hidden" name="id_event" value="{{ $pengajuan->id_event }}">
+                                    <input type="hidden" name="id_user" value="{{ $pengajuan->id_user }}">
+
+                                    <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600" type="submit">
                                         <span>{{ __('Terima') }}</span>
                                     </x-button>
+                                </form>
+
+                                {{-- tombol tolak --}}
+                                <form action="{{ route('tolakPengajuan', $pengajuan->id) }}" method="post" type="submit">
                                     @csrf
-                                    @method('DELETE')
+                                    @method('PUT')
                                     <x-button class="justify-center gap-2 bg-red-500 hover:bg-red-600 mt-2">
                                         <span>{{ __('Tolak') }}</span>
                                     </x-button>
@@ -116,8 +145,10 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                <form  action="{{ route('hapusPeminjaman', $peminjaman->id) }}" method="POST">
-                                    <x-button class="justify-center gap-2">
+                                <form action="{{ route('terimaPengembalian', $peminjaman->id) }}" method="post" type="submit">
+                                    @csrf
+                                    @method('PUT')
+                                    <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
                                         <span>{{ __('Selesai') }}</span>
                                     </x-button>
                                 </form>

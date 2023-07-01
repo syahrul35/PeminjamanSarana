@@ -82,16 +82,16 @@
                     </div>
                 </div>
 
-                <div class="md:flex mb-4">
+                {{-- <div class="md:flex mb-4">
                     <div class="md:w-1/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
                             Jumlah
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full focus:bg-white" id="jumlah" type="text" value="" name="jumlah">
+                        <input class="form-input block w-full focus:bg-white" id="jumlah" type="number" value="" name="jumlah">
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="md:flex md:items-center">
                     <div class="md:w-1/3"></div>

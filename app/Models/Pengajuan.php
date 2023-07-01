@@ -20,7 +20,7 @@ class Pengajuan extends Model
 
     public function sarana()
     {
-        return $this->belongsTo(Sarana::class, 'id_sarpras');
+        return $this->belongsTo(Sarpras::class, 'id_sarpras');
     }
 
     public function event()
@@ -30,29 +30,32 @@ class Pengajuan extends Model
 
     public function isSaranaAvailable($tglPeminjaman, $tglPengembalian, $idSarana)
     {
+        // dd($tglPeminjaman, $tglPengembalian, $idSarana);
         return !$this->where('id_sarpras', $idSarana)
-            ->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
+        ->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
+            $query->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
                 $query->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                    $query->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                        $query->where('tgl_peminjaman', '>=', $tglPeminjaman)
-                            ->where('tgl_peminjaman', '<', $tglPengembalian);
-                    })
-                        ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                            $query->where('tgl_pengembalian', '>', $tglPeminjaman)
-                                ->where('tgl_pengembalian', '<=', $tglPengembalian);
-                        });
+                    $query->where('tgl_peminjaman', '>=', $tglPeminjaman)
+                        ->where('tgl_peminjaman', '<', $tglPengembalian);
                 })
-                    ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                        $query->where('tgl_peminjaman', '<=', $tglPeminjaman)
-                            ->where('tgl_pengembalian', '>=', $tglPengembalian);
-                    });
+                ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
+                    $query->where('tgl_pengembalian', '>', $tglPeminjaman)
+                        ->where('tgl_pengembalian', '<=', $tglPengembalian);
+                });
             })
-            ->exists();
+            ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
+                $query->where('tgl_peminjaman', '<=', $tglPeminjaman)
+                    ->where('tgl_pengembalian', '>=', $tglPengembalian);
+            });
+        })
+        ->exists();
+
     }
 
-    public static function getPeminjamanDates($eventId)
+
+    public static function getPeminjamanDates($id)
     {
-        $event = Events::findOrFail($eventId);
+        $event = Events::findOrFail($id);
 
         return [
             'tgl_peminjaman' => $event->tgl_mulai,

@@ -33,8 +33,8 @@
         <div class="rounded overflow-hidden shadow-lg bg-zinc-300">
             @if (isset($_POST['generate']))
             <div class="px-6 py-4 bg-zinc-300">
-                <div class="font-bold text-xl mb-2 text-gray-600">Event 1</div>
-                    @foreach ($selected_events[0] as $event)
+                @foreach ($selected_events[0] as $event)
+                    <div class="font-bold text-xl mb-2 text-gray-600">{{$event->nama_event}}</div><hr class="mb-4">
                         <div class="md:flex mb-4">
                             <div class="md:w-2/6">
                                 <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
@@ -114,12 +114,13 @@
                                 <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pendapatan1" required min="1" max="3">
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
+
             <div class="px-6 py-4 mt-2 bg-zinc-300">
-                <div class="font-bold text-xl mb-2 text-gray-600 px-6 py-4">Event 2</div>
-                    @foreach ($selected_events[1] as $event)
+                @foreach ($selected_events[1] as $event)
+                    <div class="font-bold text-xl mb-2 text-gray-600 px-6 py-4">{{$event->nama_event}}</div><hr class="mb-4">
                         <div class="md:flex mb-4 px-6">
                             <div class="md:w-2/6">
                                 <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
@@ -199,8 +200,8 @@
                                 <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pendapatan2" required min="1" max="3">
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
             @endif
 

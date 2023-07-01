@@ -56,6 +56,6 @@ class PenyelenggaraController extends Controller
     public function destroy(User $name)
     {
         $name->delete();
-        return redirect('/admin/kelolaPenyelenggara');
+        return redirect('./admin/kelolaPenyelenggara');
     }
 }

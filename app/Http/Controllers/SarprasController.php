@@ -40,7 +40,6 @@ class SarprasController extends Controller
             'id_kategori' => $request->id_kategori,
             'id_wewenang' => $request->id_wewenang,
             'nama_sarpras' => $request->nama_sarpras,
-            'jumlah' => $request->jumlah,
         ]);
 
         return redirect('admin/sarana');
@@ -68,7 +67,6 @@ class SarprasController extends Controller
             'id_kategori' => $request->id_kategori,
             'id_wewenang' => $request->id_wewenang,
             'nama_sarpras' => $request->nama_sarpras,
-            'jumlah' => $request->jumlah,
         ]);
         return redirect('admin/sarana');
     }

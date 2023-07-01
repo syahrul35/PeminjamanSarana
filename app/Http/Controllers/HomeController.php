@@ -14,6 +14,8 @@ use App\Models\Peminjaman;
 use App\Models\Pengajuan;
 use App\Models\Events;
 use Illuminate\Support\Facades\Auth;
+use PDF;
+
 
 class HomeController extends Controller
 {
@@ -40,11 +42,31 @@ class HomeController extends Controller
             ->join('users', 'pengajuans.id_user', '=', 'users.id')
             ->join('events', 'pengajuans.id_event', '=', 'events.id')
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+            ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
             ->where('pengajuans.id_user', '=', Auth::user()->id)
-            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras')
+            ->select('pengajuans.*', 'events.nama_event', 'events.id_user', 'sarpras.nama_sarpras',
+            'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
             ->get();
 
         return view('penyelenggara.dashboardPenyelenggara', compact('pengajuan'));
+    }
+
+    public function cetak($id)
+    {
+
+        $results = DB::table('pengajuans')
+            ->join('users', 'pengajuans.id_user', '=', 'users.id')
+            ->join('events', 'pengajuans.id_event', '=', 'events.id')
+            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+            ->where('pengajuans.id', '=', $id)
+            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user',
+             'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
+            ->get();
+
+        // $results = Pengajuan::find($id);
+        $pdf = PDF::loadView('penyelenggara.contohSurat', compact('results'));
+        $pdf->setPaper('A4', 'portrait');
+        return $pdf->stream();
     }
 
 
@@ -81,13 +103,12 @@ class HomeController extends Controller
     public function kelolaPenyelenggara()
     {
         // $this->authorize('admin');
-        $user = user::where('type', '0')->paginate(5);
+        $user = user::where('type', '0')->get();
         return view('./admin/penyelenggara/kelolaPenyelenggara', compact('user'));
     }
 
     public function wewenang()
     {
-        // $this->authorize('admin');
         //get kategori
         $wewenang = Wewenang::all();
 
@@ -97,7 +118,6 @@ class HomeController extends Controller
 
     public function kategoriSarana()
     {
-        // $this->authorize('admin');
         //get kategori
         $kategori = KategoriSarpras::all();
 
@@ -107,10 +127,6 @@ class HomeController extends Controller
 
     public function kelolaSarana()
     {
-        // $this->authorize('admin');
-        // join table
-        // $sarpras = Sarpras::join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')->paginate(5);
-
         $sarpras = DB::table('sarpras')
             ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
             ->select('sarpras.*', 'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
@@ -122,16 +138,6 @@ class HomeController extends Controller
 
     public function kelolaPengajuan()
     {
-        // $this->authorize('admin');
-        //get kategori
-        // $pengajuan = DB::table('pengajuan')
-        //     ->join('users', 'users.id', '=', 'peminjaman.id_user')
-        //     ->join('events', 'events.id', '=', 'peminjaman.id_event')
-        //     ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
-        //     ->where('peminjaman.status_peminjaman', '=', '0')
-        //     ->get();
-        // ->paginate(5);
-
         $pengajuan = Pengajuan::all();
 
         //render view with peminjaman
@@ -140,16 +146,6 @@ class HomeController extends Controller
 
     public function kelolaPeminjaman()
     {
-        // $this->authorize('admin');
-        //get kategori
-        // $peminjaman = DB::table('peminjaman')
-        //     ->join('users', 'users.id', '=', 'peminjaman.id_user')
-        //     ->join('events', 'events.id', '=', 'peminjaman.id_event')
-        //     ->join('sarpras', 'sarpras.id', '=', 'peminjaman.id_sarpras')
-        //     ->where('peminjaman.status_peminjaman', '=', '1')
-        //     ->get();
-        // ->paginate(5);
-
         $peminjaman = Peminjaman::all();
 
         //render view with peminjaman

@@ -25,9 +25,10 @@
                             <th scope="col" class="px-6 py-3">No</th>
                             <th scope="col" class="px-6 py-3">Acara</th>
                             <th scope="col" class="px-6 py-3">Nama Sarana</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Mulai</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Berakhir</th>
+                            <th scope="col" class="px-6 py-3">Nama Wewenang</th>
+                            <th scope="col" class="px-6 py-3">Telepon</th>
                             <th scope="col" class="px-6 py-3">Status</th>
+                            <th scope="col" class="px-6 py-3">Cetak</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,8 +37,8 @@
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->tgl_mulai }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->tgl_akhir }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->nama_wewenang }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->telp_wewenang }}</td>
                             <td class="px-6 py-4">
                                 @if ($pengajuan->status_pengajuan == 0)
                                     <div class="bg-amber-300 rounded-md">
@@ -51,6 +52,18 @@
                                     <div class="bg-rose-500 rounded-md">
                                         <span class="text-white">Ditolak</span>
                                     </div>
+                                @endif
+                            </td>
+                            <td>
+                                @if($pengajuan->status_pengajuan == 1)
+                                {{-- <form action="{{ route('cetak', $pengajuan->id) }}" method="post" type="submit">
+                                    @csrf
+                                    @method('POST')
+                                    <x-button class="justify-center gap-2 bg-green-400 hover:bg-green-700">
+                                        <span>{{ __('Cetak') }}</span>
+                                    </x-button>
+                                </form> --}}
+                                <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">Cetak Data</a>
                                 @endif
                             </td>
                             
