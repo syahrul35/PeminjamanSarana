@@ -66,7 +66,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="date-time" value="" name="tgl_mulai">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="date" value="" name="tgl_mulai">
                     </div>
                 </div>
     
@@ -77,7 +77,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="date-time" min="" value="" name="tgl_akhir">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="date" min="" value="" name="tgl_akhir">
                     </div>
                 </div>
     

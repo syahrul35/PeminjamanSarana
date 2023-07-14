@@ -35,6 +35,7 @@
             <div class="px-6 py-4 bg-zinc-300">
                 @foreach ($selected_events[0] as $event)
                     <div class="font-bold text-xl mb-2 text-gray-600">{{$event->nama_event}}</div><hr class="mb-4">
+                        <input class="form-input hidden" id="id1" type="number" value="{{ $event->id }}" name="id1">
                         <div class="md:flex mb-4">
                             <div class="md:w-2/6">
                                 <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
@@ -121,6 +122,7 @@
             <div class="px-6 py-4 mt-2 bg-zinc-300">
                 @foreach ($selected_events[1] as $event)
                     <div class="font-bold text-xl mb-2 text-gray-600 px-6 py-4">{{$event->nama_event}}</div><hr class="mb-4">
+                        <input class="form-input hidden" id="id2" type="number" value="{{ $event->id }}" name="id2">
                         <div class="md:flex mb-4 px-6">
                             <div class="md:w-2/6">
                                 <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">

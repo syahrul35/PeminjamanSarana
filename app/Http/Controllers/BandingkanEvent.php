@@ -7,18 +7,17 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Events;
+use App\Models\Pengajuan;
 use App\Models\Sarpras;
+use Illuminate\Support\Facades\DB;
 
 class BandingkanEvent extends Controller
 {
-
-    private $hasil;
-
     public function index(Request $request)
     {
         // dd('test');
         $all_event = Events::all();
-        $results = $this->hasil;
+        
         $events = [];
 
         if (isset($_POST['generate'])) {
@@ -33,20 +32,21 @@ class BandingkanEvent extends Controller
 
         return view('admin.bandingkanEvent', [
             'events' => $all_event,
-            'selected_events' => $events,
-            'results' => $results
+            'selected_events' => $events
         ]);
     }
 
     public function rumus(Request $request)
     {
         // dd($request->input('jumlah_peserta1'));
+        $id1 = $request->input('id1');
         $jumlah_peserta1 = $request->input('jumlah_peserta1');
         $pemateri1 = $request->input('pemateri1');
         $undangan1 = $request->input('undangan1');
         $pengeluaran1 = $request->input('pengeluaran1');
         $pendapatan1 = $request->input('pendapatan1');
 
+        $id2 = $request->input('id2');
         $jumlah_peserta2 = $request->input('jumlah_peserta2');
         $pemateri2 = $request->input('pemateri2');
         $undangan2 = $request->input('undangan2');
@@ -144,13 +144,45 @@ class BandingkanEvent extends Controller
 
         // Normalisasi preferensi relatif
         $sumPreferences = array_sum($preferences);
+        $events1 = DB::table('pengajuans')
+        ->join('users', 'pengajuans.id_user', '=', 'users.id')
+        ->join('events', 'pengajuans.id_event', '=', 'events.id')
+        ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+        ->where('id_event', '=', $id1)
+        ->select(
+            'pengajuans.*',
+            'events.nama_event',
+            'events.tgl_mulai',
+            'events.id_user',
+            'events.tgl_akhir',
+            'sarpras.nama_sarpras',
+            'users.name'
+        )
+        ->get();
+        $events2 = DB::table('pengajuans')
+        ->join('users', 'pengajuans.id_user', '=', 'users.id')
+        ->join('events', 'pengajuans.id_event', '=', 'events.id')
+        ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+        ->where('id_event', '=', $id2)
+        ->select(
+            'pengajuans.*',
+            'events.nama_event',
+            'events.tgl_mulai',
+            'events.id_user',
+            'events.tgl_akhir',
+            'sarpras.nama_sarpras',
+            'users.name'
+        )
+        ->get();
         $normalizedPreferences = [];
-        foreach ($preferences as $preference) {
-            $normalizedPreferences[] = round($preference / $sumPreferences, 4);
-        }
+        
+        $hasil1 = [$id1, round($preferences[0] / $sumPreferences, 4), $events1];
+        $hasil2 = [$id2, round($preferences[1] / $sumPreferences, 4), $events2];
+        $normalizedPreferences[] = $hasil1;
+        $normalizedPreferences[] = $hasil2;
 
         return view('admin.hasil', [
-         'results' => $normalizedPreferences   
+         'results' => $normalizedPreferences
         ]);
     }
 }

@@ -35,20 +35,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $pengajuan = DB::table('pengajuans')
-            ->join('users', 'pengajuans.id_user', '=', 'users.id')
-            ->join('events', 'pengajuans.id_event', '=', 'events.id')
-            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
-            ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
-            ->where('pengajuans.id_user', '=', Auth::user()->id)
-            ->select('pengajuans.*', 'events.nama_event', 'events.id_user', 'sarpras.nama_sarpras',
-            'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
-            ->get();
+    // public function index()
+    // {
+    //     $pengajuan = DB::table('pengajuans')
+    //         ->join('users', 'pengajuans.id_user', '=', 'users.id')
+    //         ->join('events', 'pengajuans.id_event', '=', 'events.id')
+    //         ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+    //         ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
+    //         ->where('pengajuans.id_user', '=', Auth::user()->id)
+    //         ->select('pengajuans.*', 'events.nama_event', 'events.id_user', 'sarpras.nama_sarpras',
+    //         'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
+    //         ->get();
 
-        return view('penyelenggara.dashboardPenyelenggara', compact('pengajuan'));
-    }
+    //     return view('penyelenggara.dashboardPenyelenggara', compact('pengajuan'));
+    // }
 
     public function cetak($id)
     {
@@ -77,7 +77,7 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
-        $pengajuan = DB::table('pengajuans')
+        $pengajuans = DB::table('pengajuans')
             ->join('users', 'pengajuans.id_user', '=', 'users.id')
             ->join('events', 'pengajuans.id_event', '=', 'events.id')
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
@@ -94,7 +94,7 @@ class HomeController extends Controller
             ->select('peminjaman.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
             ->latest()->paginate(3);
 
-        return view('admin/dashboardAdmin', compact('pengajuan', 'peminjaman'));
+        return view('admin/dashboardAdmin', compact('pengajuans', 'peminjaman'));
 
         // return view('admin/dashboardAdmin', $data);
     }

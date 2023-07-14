@@ -26,7 +26,6 @@ class Pengajuan extends Model
         return $this->belongsTo(Events::class, 'id_event');
     }
 
-<<<<<<< HEAD
     public function isSaranaAvailable($tglPeminjaman, $tglPengembalian, $idSarana)
     {
         // dd($tglPeminjaman, $tglPengembalian, $idSarana);
@@ -61,7 +60,7 @@ class Pengajuan extends Model
             'tgl_pengembalian' => $event->tgl_akhir,
         ];
     }
-=======
+
     // public function isSaranaAvailable($tglPeminjaman, $tglPengembalian, $idSarana)
     // {
     //     $tglPeminjaman = date('Y-m-d H:i:s', strtotime($tglPeminjaman));
@@ -91,5 +90,5 @@ class Pengajuan extends Model
     //         'tgl_pengembalian' => $this->tgl_akhir,
     //     ];
     // }
->>>>>>> a78e4d8 (perbaikan fitur peminjaman)
+
 }

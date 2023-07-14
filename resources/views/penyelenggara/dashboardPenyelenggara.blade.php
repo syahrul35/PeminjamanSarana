@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ( $pengajuan as $pengajuan)
+                        @foreach ( $pengajuan as $pengajuan)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
@@ -57,6 +57,7 @@
                             <td>
                                 @if($pengajuan->status_pengajuan == 1)
                                 <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">Cetak Data</a>
+                                @endif
                             <td class="px-6 py-4">
                                 @if($pengajuan->status_pengajuan == 1)
                                 <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">
@@ -65,8 +66,8 @@
                                 @endif
                             </td>
                             
-                        @empty
-                        @endforelse
+                        
+                        @endforeach
                     </tbody>
                 </table>
             </div>
