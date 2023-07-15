@@ -16,7 +16,7 @@ class BandingkanEvent extends Controller
     public function index(Request $request)
     {
         // dd('test');
-        $all_event = Events::all();
+        $all_event = Events::get()->groupBy('tgl_mulai');
         
         $events = [];
 
@@ -175,14 +175,21 @@ class BandingkanEvent extends Controller
         )
         ->get();
         $normalizedPreferences = [];
+
+        foreach ($preferences as $preference) {
+            $normalizedPreferences[] = round($preference / $sumPreferences, 4);
+        }
+
+        $events = [$events1, $events2];
         
-        $hasil1 = [$id1, round($preferences[0] / $sumPreferences, 4), $events1];
-        $hasil2 = [$id2, round($preferences[1] / $sumPreferences, 4), $events2];
-        $normalizedPreferences[] = $hasil1;
-        $normalizedPreferences[] = $hasil2;
+        // $hasil1 = [$id1, round($preferences[0] / $sumPreferences, 4), $events1];
+        // $hasil2 = [$id2, round($preferences[1] / $sumPreferences, 4), $events2];
+        // $normalizedPreferences[] = $hasil1;
+        // $normalizedPreferences[] = $hasil2;
 
         return view('admin.hasil', [
-         'results' => $normalizedPreferences
+         'results' => $normalizedPreferences,
+         'events' => $events
         ]);
     }
 }

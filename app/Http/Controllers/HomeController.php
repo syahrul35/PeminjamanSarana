@@ -35,20 +35,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    // public function index()
-    // {
-    //     $pengajuan = DB::table('pengajuans')
-    //         ->join('users', 'pengajuans.id_user', '=', 'users.id')
-    //         ->join('events', 'pengajuans.id_event', '=', 'events.id')
-    //         ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
-    //         ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
-    //         ->where('pengajuans.id_user', '=', Auth::user()->id)
-    //         ->select('pengajuans.*', 'events.nama_event', 'events.id_user', 'sarpras.nama_sarpras',
-    //         'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
-    //         ->get();
+    public function index()
+    {
+        $pengajuan = DB::table('pengajuans')
+            ->join('users', 'pengajuans.id_user', '=', 'users.id')
+            ->join('events', 'pengajuans.id_event', '=', 'events.id')
+            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+            ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
+            ->where('pengajuans.id_user', '=', Auth::user()->id)
+            ->select('pengajuans.*', 'events.nama_event', 'events.id_user', 'sarpras.nama_sarpras',
+            'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
+            ->get();
 
-    //     return view('penyelenggara.dashboardPenyelenggara', compact('pengajuan'));
-    // }
+        return view('penyelenggara.dashboardPenyelenggara', compact('pengajuan'));
+    }
 
     public function cetak($id)
     {

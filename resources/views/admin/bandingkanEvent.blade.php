@@ -7,6 +7,8 @@
         </div>
     </x-slot>
 
+    
+
     <!-- body -->
     <div class="grid grid-cols-1 gap-3">
         <h1 class="text-md font-semibold leading-tight">Pilih Event</h1>
@@ -14,12 +16,20 @@
             @csrf
             <select name="select1" id="select1" class="form-select block w-full text-black">
                 @foreach ($events as $event)
-                <option value="{{ $event->id }}">{{ $event->nama_event }}</option>
+                @if (count($event) > 1)
+                @foreach ($event as $acara)
+                <option value="{{ $acara->id }}">{{ $acara->nama_event }}</option>
+                @endforeach
+                @endif
                 @endforeach
             </select>
             <select name="select2" id="select2" class="form-select block w-full text-black">
                 @foreach ($events as $event)
-                <option value="{{ $event->id }}">{{ $event->nama_event }}</option>
+                @if (count($event) > 1)
+                @foreach ($event as $acara)
+                <option value="{{ $acara->id }}">{{ $acara->nama_event }}</option>
+                @endforeach
+                @endif
                 @endforeach
             </select>
             <x-button name="generate" type="submit">{{ __('Submit') }}</x-button>
@@ -135,7 +145,7 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="jumlah_peserta2" required min="1" max="5">
+                                <input class="form-input block w-full focus:bg-white" id="nama_sarpras" type="number" value="" name="jumlah_peserta2" required min="1" max="5">
                             </div>
                         </div>
 
