@@ -47,9 +47,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ( $pengajuan as $pengajuan)
+                    @forelse ( $pengajuans as $index => $pengajuan)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
-                            <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                            <td class="px-6 py-4">{{ $pengajuans->firstItem() + $index}}</td>
                             <td class="px-6 py-4">{{ $pengajuan->name }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
                             <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
@@ -102,6 +102,7 @@
             </table>
         </div>
     </div>
+    {{ $pengajuans->links() }}
 
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between pt-4">
         <h2 class="text-xl font-semibold leading-tight">

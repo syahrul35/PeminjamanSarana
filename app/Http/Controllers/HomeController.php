@@ -61,7 +61,7 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
-        $pengajuan = DB::table('pengajuans')
+        $pengajuans = DB::table('pengajuans')
             ->join('users', 'pengajuans.id_user', '=', 'users.id')
             ->join('events', 'pengajuans.id_event', '=', 'events.id')
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
@@ -78,7 +78,7 @@ class HomeController extends Controller
             ->select('peminjaman.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'sarpras.nama_sarpras', 'users.name')
             ->latest()->paginate(3);
 
-        return view('admin/dashboardAdmin', compact('pengajuan', 'peminjaman'));
+        return view('admin/dashboardAdmin', compact('pengajuans', 'peminjaman'));
 
         // return view('admin/dashboardAdmin', $data);
     }

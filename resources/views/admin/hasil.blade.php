@@ -22,8 +22,9 @@
                     </tr>
                 </thead>
                 <tbody>              
-                    @foreach ($events[0] as $event)                    
+                    @foreach ($events[0] as $event)   
                     <tr class="{{ $results[0] > $results[1] ? 'bg-green-300 text-dark-eval-2' : 'bg-white dark:bg-gray-800' }} border-b text-center">
+
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $event->name }}</td>
                         <td class="px-6 py-4">{{ $event->nama_event }}</td>
@@ -78,7 +79,7 @@
                     </tr>
                 </thead>
                 <tbody>              
-                    @foreach ($events[1] as $event)                    
+                    @foreach ($events[1] as $event)         
                     <tr class="{{ $results[1] > $results[0] ? 'bg-green-300 text-dark-eval-2' : 'bg-white dark:bg-gray-800' }} border-b text-center">
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $event->name }}</td>
@@ -96,7 +97,6 @@
                                 <input type="hidden" name="id_event" value="{{ $event->id_event }}">
                                 <input type="hidden" name="id_user" value="{{ $event->id_user }}">
                                 <input type="hidden" name="tgl_peminjaman" id="" value="{{$event->tgl_mulai}}">
-
                                 <x-button class="justify-center gap-2 bg-emerald-500 hover:bg-emerald-600" type="submit">
                                     <span>{{ __('Terima') }}</span>
                                 </x-button>

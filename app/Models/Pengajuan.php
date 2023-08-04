@@ -25,6 +25,7 @@ class Pengajuan extends Model
     {
         return $this->belongsTo(Events::class, 'id_event');
     }
+<<<<<<< HEAD
     
     public function user()
     {

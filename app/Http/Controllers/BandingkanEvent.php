@@ -149,12 +149,12 @@ class BandingkanEvent extends Controller
         ->join('events', 'pengajuans.id_event', '=', 'events.id')
         ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
         ->where('id_event', '=', $id1)
-        ->where('status_pengajuan', '0')
         ->select(
             'pengajuans.*',
             'events.nama_event',
             'events.tgl_mulai',
             'events.id_user',
+
             'sarpras.nama_sarpras',
             'users.name'
         )
@@ -164,7 +164,6 @@ class BandingkanEvent extends Controller
         ->join('events', 'pengajuans.id_event', '=', 'events.id')
         ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
         ->where('id_event', '=', $id2)
-        ->where('status_pengajuan', '0')
         ->select(
             'pengajuans.*',
             'events.nama_event',
