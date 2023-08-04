@@ -34,11 +34,11 @@
                         @forelse ($wewenang as $wewenang)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}.</td>
-                            <td class="px-6 py-4">{{ $wewenang->nama_wewenang }}</td>
+                            <td class="px-6 py-4">{{ $wewenang->name }}</td>
                             <td class="px-6 py-4">{{ $wewenang->jabatan_wewenang }}</td>
                             <td class="px-6 py-4">{{ $wewenang->telp_wewenang }}</td>
                             <td class="px-6 py-4">
-                                <form action="{{ route ('editWewenang',$wewenang)}}" method="get">
+                                <form action="{{ route ('editWewenang',$wewenang->id)}}" method="get">
                                     {{ csrf_field() }}
                                     <!-- <button type="submit" class="btn btn-primary btn-sm" style="float:left;">Update</button> -->
                                     <x-button class="justify-center gap-2 bg-yellow-400 hover:bg-yellow-500">
@@ -46,7 +46,7 @@
                                     </x-button>
                                 </form>
                                 </form>
-                                <form action="{{ route('hapusWewenang', $wewenang) }}" method="post" class="mt-2 pt-2">
+                                <form action="{{ route('hapusWewenang', $wewenang->id) }}" method="POST" class="mt-1 pt-2">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="DELETE" class="pt-2 mt-2">
                                     <!-- <button type="submit" class="btn btn-danger btn-sm" style="margin-left:3px;">Delete</button> -->

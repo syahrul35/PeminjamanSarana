@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Peminjaman;
+use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class WewenangController extends Controller
+class PengajuanWewenangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,19 +34,7 @@ class WewenangController extends Controller
             )
             ->get();
 
-            //get kategori
-        $peminjaman = DB::table('peminjaman')
-        ->join('pengajuans', 'peminjaman.id_pengajuan', '=', 'pengajuans.id')
-        ->join('users', 'users.id', '=', 'pengajuans.id_user')
-        ->join('events', 'events.id', '=', 'pengajuans.id_event')
-        ->join('sarpras', 'sarpras.id', '=', 'pengajuans.id_sarpras')
-        ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id_user')
-        // ->where('peminjaman.status_peminjaman', '=', '0')
-        ->where('wewenangs.id_user', Auth::user()->id)
-        ->select('peminjaman.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'sarpras.nama_sarpras', 'users.name')
-        ->get();
-
-        return view('wewenang.dashboardWewenang', compact('pengajuan', 'peminjaman'));
+            return view('./wewenang/pengajuan/kelolaPengajuan', compact('pengajuan'));
     }
 
     /**
@@ -53,6 +43,34 @@ class WewenangController extends Controller
     public function create()
     {
         //
+    }
+    
+    public function terimaPengajuanWewenang(Request $request, $id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+
+        // simpan data pengajuan
+        $pengajuan->status_pengajuan = '2';
+        $pengajuan->save();
+
+        // simpan data peminjaman
+        $peminjaman = new Peminjaman();
+        $peminjaman->id_pengajuan = $pengajuan->id;
+        $peminjaman->tgl_peminjaman = $request->tgl_peminjaman;
+        $peminjaman->save();
+
+        return redirect()->back()->with('success', 'Pengajuan Diterima.');
+    }
+
+    public function tolakPengajuanWewenang($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+
+        // Ubah status_pengajuan menjadi 3
+        $pengajuan->status_pengajuan = '3';
+        $pengajuan->save();
+
+        return redirect()->back()->with('success', 'Pengajuan ditolak.');
     }
 
     /**

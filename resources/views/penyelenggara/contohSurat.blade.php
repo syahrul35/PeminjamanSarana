@@ -9,22 +9,23 @@
 
 <body>
     @foreach ($results as $result)
-    <div class="max-w-2xl mx-auto px-4 p-10">
+    <div class="max-w-2xl mx-auto px-4 p-10 mb-4">
         <!-- Kop Surat -->
         <div class="flex justify-center">
             <div class="w-2/6">
                 <!-- Cop surat dengan gambar -->
-                <img src="https://tebuireng.online/wp-content/uploads/2015/06/UNHASY_logo.jpg" alt="Logo" class="w-20 h-20">
+                {{-- <img src="https://tebuireng.online/wp-content/uploads/2015/06/UNHASY_logo.jpg" alt="Logo" class="w-20 h-20"> --}}
             </div>
-            <div class="w-4/6 text-center" style="">
+            <div class="w-4/6 text-center" style="top-0">
                 <!-- Nama pengirim -->
+                <img src="https://tebuireng.online/wp-content/uploads/2015/06/UNHASY_logo.jpg" alt="Logo" class="w-20 h-20 float-left">
                 <p class="text-lg font-semibold">Universitas Hasyim Asy'ari</p>
                 <p class="font-semibold">Tebuireng Jombang</p>
                 <p>Jl Irian Jaya No.55 Tebuireng Jombang 61471</p>
             </div>
             <div class="w-2/6"></div>
         </div>
-        <hr>
+        <hr class="mt-2">
 
         <!-- Isi Surat -->
         <div>
@@ -33,7 +34,7 @@
             <p class="text-l font-bold mb-4">Hal :</p>
 
             <p>Kepada Yth,</p>
-            <p class="font-bold">Kepala Sarana Universitas Hasyim Asy'ari</p>
+            <p class="font-bold">{{$result->pengajuan->sarpras->wewenang->users->name}}</p>
             <p>Di-,</p>
             <p class="mb-4">Tempat</p>
 
@@ -43,7 +44,7 @@
                 kita sehari-hari. Aamiin.
             </p>
             <p class="">
-                Sehubungan dengan diadakannya Kegiatan <strong>{{$result->nama_event}}</strong> pada:
+                Sehubungan dengan diadakannya Kegiatan <strong>{{$result->pengajuan->event->nama_event}}</strong> pada:
             </p>
 
             <table class="w-250 mb-4">
@@ -63,7 +64,7 @@
                     <tr>
                         <td class="px-4 py-2">Tanggal</td>
                         <td class="px-2 py-2">:</td>
-                        <td class="px-2 py-2">{{$result->tgl_mulai}}</td>
+                        <td class="px-2 py-2">{{$result->pengajuan->event->tgl_mulai}}</td>
                     </tr>
                     <tr>
                         <td class="px-4 py-2">Jam</td>
@@ -79,9 +80,9 @@
             </table>
 
             <p class="text-justify">
-                &nbsp;&nbsp;&nbsp;Untuk itu, kami selaku panitia memohon izin untuk Sarana dan Prasarana
-                <strong>{{$result->nama_sarpras}}</strong> dalam pelaksanaan acara tersebut
-                 agar acara yang kami selenggarakan dapat berjalan dengan lancar.
+                &nbsp;&nbsp;&nbsp;Untuk itu, kami selaku panitia memohon izin untuk mengajukan
+                peminjaman sarana dan prasarana <strong>{{$result->pengajuan->sarpras->nama_sarpras}}</strong> 
+                dalam pelaksanaan acara tersebut agar acara yang kami selenggarakan dapat berjalan dengan lancar.
             </p>
             <p class="text-justify">
                 &nbsp;&nbsp;&nbsp;Demikian surat permohonan ini kami sampaikan, atas partisipasi dan kerjasamanya kami
@@ -91,9 +92,12 @@
 
             {{-- <p class="mb-4 absolute inset-y-0 right-0 w-16">Jombang, &nbsp;</p> --}}
 
-            <p class="mt-8 mb-8 font-bold">Ketua</p>
-            <p class="mt-8 mb-8 font-bold"></p>
-            <p class="mt-8 font-bold">{{$result->name}}</p>
+            <div class="float-right">
+                <p class="mt-8 mb-8 font-bold">Ketua</p>
+                <p class="mt-8 mb-8 font-bold"></p>
+                <p class="mt-8 font-bold">{{$result->pengajuan->user->name}}</p>
+            </div>
+
         </div>
     </div>
     @endforeach

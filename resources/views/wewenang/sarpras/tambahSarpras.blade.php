@@ -40,6 +40,7 @@
             <form action="{{ route('simpanSarpras') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="md:flex mb-6">
+                    <input type="hidden" name="id_wewenang" id="id_wewenang" value="{{ Auth::user()->id }}">
                     <div class="md:w-1/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-select">
                             Nama Kategori
@@ -51,21 +52,6 @@
                             <option value="{{ $sarpras->id }}" {{ old('id_kategori') == $sarpras->id_kategori ? 'selected' : '' }}>
                                 {{ $sarpras->nama_kategori }}
                             </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="md:flex mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-select">
-                            Nama Wewenang
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <select name="id_wewenang" class="form-select block w-full focus:bg-white" id="my-select" data-item="" value="">
-                            @foreach ($wewenang as $wewenang)
-                            <option value="{{ $wewenang->id }}" {{ $wewenang->id == $wewenang->id  ? 'selected' : ''}}>{{ $wewenang->nama_wewenang }}</option>
                             @endforeach
                         </select>
                     </div>

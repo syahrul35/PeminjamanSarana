@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Peminjaman;
 use App\Models\Pengajuan;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Sarpras;
 use App\Models\Events;
@@ -18,8 +19,8 @@ class PengajuanController extends Controller
     // tampilkan data
     public function index()
     {
-        //get pengajuan
-        $pengajuan = DB::table('pengajuans')
+            // Get pengajuan
+            $pengajuan = DB::table('pengajuans')
             ->join('users', 'pengajuans.id_user', '=', 'users.id')
             ->join('events', 'pengajuans.id_event', '=', 'events.id')
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
@@ -29,25 +30,26 @@ class PengajuanController extends Controller
                 'events.nama_event',
                 'events.tgl_mulai',
                 'events.id_user',
-                'events.tgl_akhir',
                 'sarpras.nama_sarpras',
                 'users.name'
             )
             ->get();
-        // ->paginate(5);
 
-        // $pengajuan = Pengajuan::all();
-        $sarprasOptions = Sarpras::pluck('nama_sarpras', 'id');
-        $eventOptions = Events::pluck('nama_event', 'id');
-        $userOptions = User::pluck('name', 'id');
+            $prevTgl = null;
 
-        //render view with peminjaman
-        return view('./admin/pengajuan', [
-            'pengajuan' => $pengajuan,
-            'sarpras' => $sarprasOptions,
-            'events' => $eventOptions,
-            'users' => $userOptions,
-        ]);
+            foreach ($pengajuan as $key => $item) {
+                $tglMulai = \Carbon\Carbon::parse($item->tgl_mulai);
+        
+                if ($key > 0 && $tglMulai->isSameDay(\Carbon\Carbon::parse($pengajuan[$key-1]->tgl_mulai))) {
+                    $item->isSameDay = true;
+                } else {
+                    $item->isSameDay = false;
+                }
+        
+                $prevTgl = $tglMulai;
+            }
+
+        return view('./admin/pengajuan', compact('pengajuan'));
     }
 
     public function terimaPengajuan(Request $request, $id)
@@ -82,17 +84,17 @@ class PengajuanController extends Controller
         ]);
 
         // Simpan data peminjaman jika valid
-        $peminjaman = new Peminjaman();
-        $peminjaman->id_pengajuan = $pengajuan->id;
-        $peminjaman->tgl_peminjaman = $request->tgl_peminjaman;
-        $peminjaman->save();
+        // $peminjaman = new Peminjaman();
+        // $peminjaman->id_pengajuan = $pengajuan->id;
+        // $peminjaman->tgl_peminjaman = $request->tgl_peminjaman;
+        // $peminjaman->save();
 
         // Update status_peminjaman di tabel pengajuan
         $pengajuan->status_pengajuan = '1';
         $pengajuan->save();
 
         // penyimpanan berhasil
-        return redirect()->back()->with('success', 'Pengajuan diterima dan disimpan ke tabel peminjaman.');
+        return redirect()->back()->with('success', 'Pengajuan Diterima.');
     }
     
 
@@ -101,7 +103,7 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::findOrFail($id);
 
         // Ubah status_pengajuan menjadi 2
-        $pengajuan->status_pengajuan = 2;
+        $pengajuan->status_pengajuan = '3';
         $pengajuan->save();
 
         return redirect()->back()->with('success', 'Pengajuan ditolak.');

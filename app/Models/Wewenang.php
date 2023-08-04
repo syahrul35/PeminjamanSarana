@@ -10,8 +10,18 @@ class Wewenang extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama_wewenang',
+        'id_user',
         'jabatan_wewenang',
         'telp_wewenang',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function sarpras()
+    {
+        return $this->hasMany(Sarpras::class);
+    }
 }

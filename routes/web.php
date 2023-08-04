@@ -12,10 +12,14 @@ use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PenyelenggaraController;
 use App\Http\Controllers\PilihSarprasController;
 use App\Http\Controllers\SarprasController;
+use App\Http\Controllers\kelolaWewenangController;
+use App\Http\Controllers\PeminjamanWewenangController;
+use App\Http\Controllers\PengajuanWewenangController;
 use App\Http\Controllers\WewenangController;
 use App\Models\KategoriSarpras;
 use App\Models\Peminjaman;
 use App\Models\Pengajuan;
+use App\Models\Wewenang;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +36,7 @@ use App\Models\Pengajuan;
 //     return view('welcome');
 // });
 
+// -----------------------------------------PENYELENGGARA-----------------------------------------------------  //
 // Penyelenggara
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboardPenyelenggara');
@@ -57,13 +62,49 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/buatPengajuan', [PilihSarprasController::class, 'store'])->name('buatPengajuan');
 });
 
+// ------------------------------------------WEWENANG--------------------------------------------------------- //
+
+// wewenang
+Route::middleware(['auth', 'user-access:wewenang'])->group(function () {
+    Route::get('/wewenang', [WewenangController::class, 'index'])->name('dashboardWewenang');
+});
+
+// kelola sarpras
+Route::middleware('auth')->group(function () {
+    Route::get('/wewenang/sarana', [SarprasController::class, 'index'])->name('kelolaSarpras');
+    // Route::get('/wewenang/sarana', [HomeController::class, 'kelolaSarana'])->name('kelolaSarpras');
+    Route::get('/wewenang/tambahSarpras', [SarprasController::class, 'create'])->name('tambahSarpras');
+    Route::post('/wewenang/kelolaSarpras', [SarprasController::class, 'store'])->name('simpanSarpras');
+    Route::patch('/kelolaSarpras/{sarpras}/edit', [SarprasController::class, 'update'])->name('updateSarpras');
+    Route::get('/kelolaSarpras/{id}', [SarprasController::class, 'edit'])->name('editSarpras');
+    Route::delete('/sarpras/{nama_sarpras}/delete', [SarprasController::class, 'destroy'])->name('hapusSarpras');
+});
+
+// kelola pengajuan
+Route::middleware('auth')->group(function () {
+    Route::get('/wewenang/pengajuan', [PengajuanWewenangController::class, 'index'])->name('kelolaPengajuan');
+    // Route::get('/wewenang/tambahPengajuan', [PengajuanWewenangController::class, 'create'])->name('tambahPengajuan');
+    Route::put('/wewenang/terima-pengajuan/{id}', [PengajuanWewenangController::class, 'terimaPengajuanWewenang'])->name('terimaPengajuanWewenang');
+    Route::put('/wewenang/tolak-pengajuan/{id}', [PengajuanWewenangController::class, 'tolakPengajuanWewenang'])->name('tolakPengajuanWewenang');
+    // Route::put('/admin/{id}/delete', [PengajuanWewenangController::class, 'terimaPengajuan'])->name('terimaPengajuan');
+});
+
+// kelola peminjaman
+Route::middleware('auth')->group(function () {
+    Route::get('/wewenang/peminjaman', [PeminjamanWewenangController::class, 'index'])->name('kelolaPeminjaman');
+    Route::put('/wewenang/terima-pengembalian/{id}', [PeminjamanWewenangController::class, 'terimaPengembalian'])->name('terimaPengembalian');
+});
+
+
+// ========================================== ADMIN =========================================================  //
+
 // admin
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin', [HomeController::class, 'adminHome'])->name('dashboardAdmin');
     Route::get('/admin/penyelenggara', [HomeController::class, 'kelolaPenyelenggara'])->name('kelolaPenyelenggara');
     Route::get('/admin/wewenang', [HomeController::class, 'wewenang'])->name('wewenang');
     Route::get('/admin/kategoriSarana', [HomeController::class, 'kategoriSarana'])->name('kategoriSarana');
-    Route::get('/admin/sarana', [HomeController::class, 'kelolaSarana'])->name('kelolaSarpras');
+    // Route::get('/wewenang/sarana', [HomeController::class, 'kelolaSarana'])->name('kelolaSarpras');
     // Route::get('/admin/pengajuan', [HomeController::class, 'kelolaPengajuan'])->name('pengajuan');
     // Route::get('/admin/peminjaman', [HomeController::class, 'kelolaPeminjaman'])->name('peminjaman');
     // Route::get('/admin/bandingkanEvent', [HomeController::class, 'bandingkanEvent'])->name('bandingkanEvent');
@@ -89,11 +130,11 @@ Route::middleware('auth')->group(function () {
 //  wewenang
 Route::middleware('auth')->group(function () {
     // Route::get('/admin/wewenang', [WewenangController::class, 'index'])->name('wewenang');
-    Route::get('/admin/tambahWewenang', [WewenangController::class, 'create'])->name('tambahWewenang');
-    Route::post('/admin/wewenang', [WewenangController::class, 'store'])->name('simpanWewenang');
-    Route::patch('/wewenang/{wewenang}/edit', [WewenangController::class, 'update'])->name('updateWewenang');
-    Route::get('/wewenang/{id}/', [WewenangController::class, 'edit'])->name('editWewenang');
-    Route::delete('/wewenang/{nama_wewenang}/delete', [WewenangController::class, 'destroy'])->name('hapusWewenang');
+    Route::get('/admin/tambahWewenang', [kelolaWewenangController::class, 'create'])->name('tambahWewenang');
+    Route::post('/admin/wewenang', [kelolaWewenangController::class, 'store'])->name('simpanWewenang');
+    Route::patch('/wewenang/{wewenang}/edit', [kelolaWewenangController::class, 'update'])->name('updateWewenang');
+    Route::get('/wewenang/{id}/', [kelolaWewenangController::class, 'edit'])->name('editWewenang');
+    Route::delete('/wewenang/{nama_wewenang}/delete', [kelolaWewenangController::class, 'destroy'])->name('hapusWewenang');
 });
 
 // kategori Sarpras
@@ -104,16 +145,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/kategori/{kategori}/edit', [KategoriSarprasController::class, 'update'])->name('updateKategori');
     Route::get('/kategori/{id}/', [KategoriSarprasController::class, 'edit'])->name('editKategori');
     Route::delete('/kategoriSarana/{nama_kategori}/delete', [KategoriSarprasController::class, 'destroy'])->name('hapusKategori');
-});
-
-// kelola sarpras
-Route::middleware('auth')->group(function () {
-    // Route::get('/admin/kelolaSarpras', [SarprasController::class, 'index'])->name('kelolaSarpras');
-    Route::get('/admin/tambahSarpras', [SarprasController::class, 'create'])->name('tambahSarpras');
-    Route::post('/admin/kelolaSarpras', [SarprasController::class, 'store'])->name('simpanSarpras');
-    Route::patch('/kelolaSarpras/{sarpras}/edit', [SarprasController::class, 'update'])->name('updateSarpras');
-    Route::get('/kelolaSarpras/{id}', [SarprasController::class, 'edit'])->name('editSarpras');
-    Route::delete('/sarpras/{nama_sarpras}/delete', [SarprasController::class, 'destroy'])->name('hapusSarpras');
 });
 
 // kelola pengajuan

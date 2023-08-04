@@ -17,10 +17,11 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('users');
             $table->string('nama_event');
             $table->date('tgl_mulai');
-            $table->date('tgl_akhir');
             $table->integer('jumlah_peserta');
             $table->string('pemateri');
+            $table->string('nilai_pemateri');
             $table->string('undangan');
+            $table->string('nilai_undangan');
             $table->integer('biaya_pengeluaran');
             $table->integer('biaya_pendapatan');
             $table->timestamps();

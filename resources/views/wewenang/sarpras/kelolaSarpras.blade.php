@@ -35,7 +35,7 @@
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}.</td>
                             <td class="px-6 py-4">{{ $sarpras->nama_sarpras }}</td>
-                            <td class="px-6 py-4">{{ $sarpras->nama_wewenang }}</td>
+                            <td class="px-6 py-4">{{ $sarpras->name }}</td>
                             <td class="px-6 py-4">{{ $sarpras->telp_wewenang }}</td>
                             <td class="px-6 py-4">
                                 <form action="{{ route ('editSarpras',$sarpras->id)}}" method="get">

@@ -13,6 +13,7 @@
                 <x-heroicon-s-plus-small class="w-6 h-6" aria-hidden="true" />
                 <span>{{ __('Tambah') }}</span>
             </x-button>
+        </a>
     </div>
 
     <div class="py-2">
@@ -38,7 +39,6 @@
                                 <x-button class="justify-center gap-2 bg-yellow-400 hover:bg-yellow-500">
                                     <span>{{ __('Edit') }}</span>
                                 </x-button>
-                            </form>
                             </form>
                             <form action="{{ route('hapusPenyelenggara', $user) }}" method="post" class="mt-2 pt-2">
                                 {{ csrf_field() }}

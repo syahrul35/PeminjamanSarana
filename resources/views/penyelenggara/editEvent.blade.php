@@ -67,18 +67,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="datetime-local" value="{{ $event->tgl_mulai }}" name="tgl_mulai">
-                    </div>
-                </div>
-    
-                <div class="md:flex mb-4">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Tanggal Akhir
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="datetime-local" min="" value="{{ $event->tgl_akhir }}" name="tgl_akhir">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="date" value="{{ $event->tgl_mulai }}" name="tgl_mulai">
                     </div>
                 </div>
     
@@ -103,6 +92,17 @@
                         <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="{{ $event->pemateri }}" name="pemateri">
                     </div>
                 </div>
+
+                <div class="md:flex mb-4">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            Jangkauan Pemateri
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="{{ $event->nilai_pemateri }}" name="pemateri">
+                    </div>
+                </div>
     
                 <div class="md:flex mb-4">
                     <div class="md:w-1/3">
@@ -112,6 +112,17 @@
                     </div>
                     <div class="md:w-2/3">
                         <input class="form-input rounded block w-full focus:bg-white" id="undangan" type="text" value="{{ $event->undangan }}" name="undangan">
+                    </div>
+                </div>
+
+                <div class="md:flex mb-4">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            Jangkauan Undangan
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="{{ $event->nilai_undangan }}" name="pemateri">
                     </div>
                 </div>
     

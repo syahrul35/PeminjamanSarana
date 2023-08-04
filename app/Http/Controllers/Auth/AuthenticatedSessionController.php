@@ -37,7 +37,11 @@ class AuthenticatedSessionController extends Controller
 
             if (auth()->user()->type == 'admin') {
                 return redirect()->route('dashboardAdmin');
-            } else {
+            }
+            elseif(auth()->user()->type == 'wewenang'){
+                return redirect()->route('dashboardWewenang');
+            } 
+            else {
                 return redirect()->route('dashboardPenyelenggara');
             }
         } else {

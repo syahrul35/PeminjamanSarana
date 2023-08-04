@@ -87,26 +87,13 @@
                 <div class="md:flex mb-4">
                     <div class="md:w-1/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Tanggal Mulai
+                            Tanggal Pelaksanaan
                         </label>
                     </div>
                     <div class="md:w-2/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
                             {{ $event->tgl_mulai }}
                         </label>
-                    </div>
-                </div>
-    
-                <div class="md:flex mb-4">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Tanggal Akhir
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            {{ $event->tgl_akhir }}
-                        </label>    
                     </div>
                 </div>
     

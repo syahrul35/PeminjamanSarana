@@ -12,15 +12,17 @@ class Events extends Model
     use HasFactory;
 
     protected $table = 'events';
+    protected $dates = ['tgl_mulai'];
 
     protected $fillable = [
         'id_user',
         'nama_event',
         'tgl_mulai',
-        'tgl_akhir',
         'jumlah_peserta',
         'pemateri',
+        'nilai_pemateri',
         'undangan',
+        'nilai_undangan',
         'biaya_pengeluaran',
         'biaya_pendapatan',
     ];

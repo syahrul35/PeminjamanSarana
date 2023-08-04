@@ -15,8 +15,15 @@ class Sarpras extends Model
         'nama_sarpras',
     ];
 
+    public function wewenang()
+    {
+        return $this->belongsTo(Wewenang::class, 'id_wewenang', 'id_user');
+    }
+
     public function pengajuan()
     {
         return $this->hasMany(Pengajuan::class);
     }
+
+    
 }

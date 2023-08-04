@@ -35,33 +35,36 @@
                         @forelse ( $pengajuan as $pengajuan)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->nama_wewenang }}</td>
-                            <td class="px-6 py-4">{{ $pengajuan->telp_wewenang }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->event->nama_event }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->sarpras->nama_sarpras }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->sarpras->wewenang->users->name }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->sarpras->wewenang->telp_wewenang }}</td>
                             <td class="px-6 py-4">
                                 @if ($pengajuan->status_pengajuan == 0)
-                                    <div class="bg-amber-300 rounded-md">
-                                        <span class="text-white">Proses</span>
+                                    <div class="bg-amber-300 rounded-md px-4 py-2">
+                                        <span class="text-white">Persetujuan Admin</span>
                                     </div>
                                 @elseif($pengajuan->status_pengajuan == 1)
-                                    <div class="bg-green-500 rounded-md">
-                                        <span class="text-white">Diterima</span>
+                                    <div class="bg-amber-600 rounded-md px-4 py-2">
+                                        <span class="text-white">Persetujuan Wewenang</span>
                                     </div>
+                                @elseif($pengajuan->status_pengajuan == 2)
+                                <div class="bg-green-500 rounded-md px-4 py-2">
+                                    <span class="text-white">Disetujui</span>
+                                </div>
                                 @else
-                                    <div class="bg-rose-500 rounded-md">
+                                    <div class="bg-rose-500 rounded-md px-4 py-2">
                                         <span class="text-white">Ditolak</span>
                                     </div>
                                 @endif
                             </td>
-                            <td>
-                                @if($pengajuan->status_pengajuan == 1)
-                                <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">Cetak Data</a>
+                            {{-- <td>
+                                @if($pengajuan->status_pengajuan == 2)
+                                <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">Cetak Data</a> --}}
                             <td class="px-6 py-4">
-                                @if($pengajuan->status_pengajuan == 1)
+                                @if($pengajuan->status_pengajuan == 2)
                                 <a href="{{ route('cetak', $pengajuan->id) }}" target="_blank" class="py-2 px-3 rounded-lg text-white bg-indigo-500 shadow-lg hover:bg-indigo-600">
                                     Cetak</a>
-
                                 @endif
                             </td>
                             

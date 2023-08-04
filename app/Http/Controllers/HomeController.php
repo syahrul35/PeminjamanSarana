@@ -37,32 +37,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pengajuan = DB::table('pengajuans')
-            ->join('users', 'pengajuans.id_user', '=', 'users.id')
-            ->join('events', 'pengajuans.id_event', '=', 'events.id')
-            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
-            ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
-            ->where('pengajuans.id_user', '=', Auth::user()->id)
-            ->select('pengajuans.*', 'events.nama_event', 'events.id_user', 'sarpras.nama_sarpras',
-            'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
-            ->get();
+        $pengajuan = Pengajuan::where('id_user', Auth::user()->id)->get();
 
         return view('penyelenggara.dashboardPenyelenggara', compact('pengajuan'));
     }
 
     public function cetak($id)
     {
+        // $results = Peminjaman::all();
 
-        $results = DB::table('pengajuans')
-            ->join('users', 'pengajuans.id_user', '=', 'users.id')
-            ->join('events', 'pengajuans.id_event', '=', 'events.id')
-            ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
-            ->where('pengajuans.id', '=', $id)
-            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user',
-             'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
-            ->get();
-
-        // $results = Pengajuan::find($id);
+        $results = Peminjaman::findOrFail($id);
         $pdf = PDF::loadView('penyelenggara.contohSurat', compact('results'));
         $pdf->setPaper('A4', 'portrait');
         return $pdf->stream();
@@ -82,7 +66,7 @@ class HomeController extends Controller
             ->join('events', 'pengajuans.id_event', '=', 'events.id')
             ->join('sarpras', 'pengajuans.id_sarpras', '=', 'sarpras.id')
             ->where('status_pengajuan', '=', '0')
-            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
+            ->select('pengajuans.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'sarpras.nama_sarpras', 'users.name')
             ->latest()->paginate(3);
 
         $peminjaman = DB::table('peminjaman')
@@ -91,7 +75,7 @@ class HomeController extends Controller
             ->join('events', 'events.id', '=', 'pengajuans.id_event')
             ->join('sarpras', 'sarpras.id', '=', 'pengajuans.id_sarpras')
             // ->where('peminjaman.status_peminjaman', '=', '0')
-            ->select('peminjaman.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'events.tgl_akhir', 'sarpras.nama_sarpras', 'users.name')
+            ->select('peminjaman.*', 'events.nama_event', 'events.tgl_mulai', 'events.id_user', 'sarpras.nama_sarpras', 'users.name')
             ->latest()->paginate(3);
 
         return view('admin/dashboardAdmin', compact('pengajuan', 'peminjaman'));
@@ -109,7 +93,11 @@ class HomeController extends Controller
     public function wewenang()
     {
         //get kategori
-        $wewenang = Wewenang::all();
+        $wewenang = DB::table('wewenangs')
+                        ->join('users', 'users.id', '=', 'wewenangs.id_user')
+                        ->where('users.type', 2)
+                        ->select('users.*', 'wewenangs.*')
+                        ->get();
 
         //render view with kategori
         return view('./admin/wewenang/wewenang', compact('wewenang'));
@@ -128,11 +116,12 @@ class HomeController extends Controller
     {
         $sarpras = DB::table('sarpras')
             ->join('wewenangs', 'sarpras.id_wewenang', '=', 'wewenangs.id')
-            ->select('sarpras.*', 'wewenangs.nama_wewenang', 'wewenangs.telp_wewenang')
+            ->join('users', 'users.id', '=', 'wewenangs.id_user')
+            ->select('sarpras.*', 'users.name', 'wewenangs.telp_wewenang')
             ->get();
 
         //render view with kategori
-        return view('./admin/sarpras/kelolaSarpras', compact('sarpras'));
+        return view('./wewenang/sarpras/kelolaSarpras', compact('sarpras'));
     }
 
     public function kelolaPengajuan()

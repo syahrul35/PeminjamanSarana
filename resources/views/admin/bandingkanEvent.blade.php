@@ -14,12 +14,20 @@
             @csrf
             <select name="select1" id="select1" class="form-select block w-full text-black">
                 @foreach ($events as $event)
-                <option value="{{ $event->id }}">{{ $event->nama_event }}</option>
+                @if (count($event) > 1)
+                @foreach ($event as $acara)
+                <option value="{{ $acara->id }}">{{ $acara->nama_event }}</option>
+                @endforeach
+                @endif
                 @endforeach
             </select>
             <select name="select2" id="select2" class="form-select block w-full text-black">
                 @foreach ($events as $event)
-                <option value="{{ $event->id }}">{{ $event->nama_event }}</option>
+                @if (count($event) > 1)
+                @foreach ($event as $acara)
+                <option value="{{ $acara->id }}">{{ $acara->nama_event }}</option>
+                @endforeach
+                @endif
                 @endforeach
             </select>
             <x-button name="generate" type="submit">{{ __('Submit') }}</x-button>
@@ -35,6 +43,7 @@
             <div class="px-6 py-4 bg-zinc-300">
                 @foreach ($selected_events[0] as $event)
                     <div class="font-bold text-xl mb-2 text-gray-600">{{$event->nama_event}}</div><hr class="mb-4">
+                    <input class="form-input hidden" id="id1" type="number" value="{{ $event->id }}" name="id1">
                         <div class="md:flex mb-4">
                             <div class="md:w-2/6">
                                 <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
@@ -47,7 +56,17 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="jumlah_peserta1" required min="1" max="5">
+                                @if($event->jumlah_peserta >= 1000)
+                                    <input class="form-input w-full focus:bg-white hidden" id="nama_sarpras" type="number" value="5" name="jumlah_peserta1" required min="1" max="5">
+                                @elseif($event->jumlah_peserta >= 500)
+                                    <input class="form-input w-full focus:bg-white hidden" id="nama_sarpras" type="number" value="4" name="jumlah_peserta1" required min="1" max="5">
+                                @elseif($event->jumlah_peserta >= 100)
+                                    <input class="form-input w-full focus:bg-white hidden" id="nama_sarpras" type="number" value="3" name="jumlah_peserta1" required min="1" max="5">
+                                @elseif($event->jumlah_peserta >= 50)
+                                    <input class="form-input w-full focus:bg-white hidden" id="nama_sarpras" type="number" value="2" name="jumlah_peserta1" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden" id="nama_sarpras" type="number" value="1" name="jumlah_peserta1" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -63,7 +82,17 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pemateri1" required min="1" max="5">
+                                @if($event->nilai_pemateri == 'Internasional')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="5" name="pemateri1" required min="1" max="5">
+                                @elseif($event->nilai_pemateri == 'Nasional')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="4" name="pemateri1" required min="1" max="5">
+                                @elseif($event->nilai_pemateri == 'Provinsi')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="pemateri1" required min="1" max="5">
+                                @elseif($event->nilai_pemateri == 'Kabupaten')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="pemateri1" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="pemateri1" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -79,7 +108,15 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="undangan1" required min="1" max="4">
+                                @if($event->nilai_undangan == 'Internasional')
+                                <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="4" name="undangan1" required min="1" max="5">
+                                @elseif($event->nilai_undangan == 'Nasional')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="undangan1" required min="1" max="5">
+                                @elseif($event->nilai_undangan == 'Provinsi' || 'Kabupaten')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="undangan1" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="undangan1" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -95,7 +132,13 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pengeluaran1" required min="1" max="3">
+                                @if($event->biaya_pengeluaran >= 5000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="pengeluaran1" required min="1" max="5">
+                                @elseif($event->biaya_pengeluaran < 1000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="pengeluaran1" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="pengeluaran1" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -111,7 +154,13 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pendapatan1" required min="1" max="3">
+                                @if($event->biaya_pendapatan >= 5000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="pendapatan1" required min="1" max="5">
+                                @elseif($event->biaya_pendapatan < 1000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="pendapatan1" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="pendapatan1" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -121,6 +170,8 @@
             <div class="px-6 py-4 mt-2 bg-zinc-300">
                 @foreach ($selected_events[1] as $event)
                     <div class="font-bold text-xl mb-2 text-gray-600 px-6 py-4">{{$event->nama_event}}</div><hr class="mb-4">
+                    <input class="form-input hidden" id="id2" type="number" value="{{ $event->id }}" name="id2">
+                        
                         <div class="md:flex mb-4 px-6">
                             <div class="md:w-2/6">
                                 <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
@@ -133,7 +184,17 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="jumlah_peserta2" required min="1" max="5">
+                                @if($event->jumlah_peserta >= 1000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="5" name="jumlah_peserta2" required min="1" max="5">
+                                @elseif($event->jumlah_peserta >= 500)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="4" name="jumlah_peserta2" required min="1" max="5">
+                                @elseif($event->jumlah_peserta >= 100)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="jumlah_peserta2" required min="1" max="5">
+                                @elseif($event->jumlah_peserta >= 50)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="jumlah_peserta2" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="jumlah_peserta2" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -149,7 +210,17 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pemateri2" required min="1" max="5">
+                                @if($event->nilai_pemateri == 'Internasional')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="5" name="pemateri2" required min="1" max="5">
+                                @elseif($event->nilai_pemateri == 'Nasional')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="4" name="pemateri2" required min="1" max="5">
+                                @elseif($event->nilai_pemateri == 'Provinsi')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="pemateri2" required min="1" max="5">
+                                @elseif($event->nilai_pemateri == 'Kabupaten')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="pemateri2" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="pemateri2" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -165,7 +236,15 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="undangan2" required min="1" max="4">
+                                @if($event->nilai_undangan == 'Internasional')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="4" name="undangan2" required min="1" max="5">
+                                @elseif($event->nilai_undangan == 'Nasional')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="undangan2" required min="1" max="5">
+                                @elseif($event->nilai_undangan == 'Provinsi' || 'Kabupaten')
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="undangan2" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="undangan2" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -181,7 +260,13 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pengeluaran2" required min="1" max="3">
+                                @if($event->biaya_pengeluaran >= 5000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="pengeluaran2" required min="1" max="5">
+                                @elseif($event->biaya_pengeluaran < 1000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="pengeluaran2" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="pengeluaran2" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
 
@@ -197,7 +282,13 @@
                                 </label>
                             </div>
                             <div class="md:w-1/6">
-                                <input class="form-input block w-full focus:bg-white " id="nama_sarpras" type="number" value="" name="pendapatan2" required min="1" max="3">
+                                @if($event->biaya_pendapatan >= 5000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="3" name="pendapatan2" required min="1" max="5">
+                                @elseif($event->biaya_pendapatan < 1000000)
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="1" name="pendapatan2" required min="1" max="5">
+                                @else
+                                    <input class="form-input w-full focus:bg-white hidden " id="nama_sarpras" type="number" value="2" name="pendapatan2" required min="1" max="5">
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -205,14 +296,13 @@
             </div>
             @endif
 
-            <div class="mt-2">
+            <div class="mt-2 mb-2">
                 <a href="/admin/hasil">
                     <x-button class="justify-center gap-2">
-                        <x-heroicon-s-plus-small class="w-6 h-6" aria-hidden="true" />
-                        <span>{{ __('hasil') }}</span>
+                        <span>{{ __('Hasil') }}</span>
                     </x-button>
                 </a>
-            </div>   
+            </div>    
         </form>     
     </div>
 

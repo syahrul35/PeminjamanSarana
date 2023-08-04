@@ -16,7 +16,7 @@ class Pengajuan extends Model
         'status_pengajuan'
     ];
 
-    public function sarana()
+    public function sarpras()
     {
         return $this->belongsTo(Sarpras::class, 'id_sarpras');
     }
@@ -25,71 +25,9 @@ class Pengajuan extends Model
     {
         return $this->belongsTo(Events::class, 'id_event');
     }
-
-<<<<<<< HEAD
-    public function isSaranaAvailable($tglPeminjaman, $tglPengembalian, $idSarana)
-    {
-        // dd($tglPeminjaman, $tglPengembalian, $idSarana);
-        return !$this->where('id_sarpras', $idSarana)
-        ->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-            $query->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                $query->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                    $query->where('tgl_peminjaman', '>=', $tglPeminjaman)
-                        ->where('tgl_peminjaman', '<', $tglPengembalian);
-                })
-                ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                    $query->where('tgl_pengembalian', '>', $tglPeminjaman)
-                        ->where('tgl_pengembalian', '<=', $tglPengembalian);
-                });
-            })
-            ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-                $query->where('tgl_peminjaman', '<=', $tglPeminjaman)
-                    ->where('tgl_pengembalian', '>=', $tglPengembalian);
-            });
-        })
-        ->exists();
-
-    }
-
-
-    public static function getPeminjamanDates($id)
-    {
-        $event = Events::findOrFail($id);
-
-        return [
-            'tgl_peminjaman' => $event->tgl_mulai,
-            'tgl_pengembalian' => $event->tgl_akhir,
-        ];
-    }
-=======
-    // public function isSaranaAvailable($tglPeminjaman, $tglPengembalian, $idSarana)
-    // {
-    //     $tglPeminjaman = date('Y-m-d H:i:s', strtotime($tglPeminjaman));
-    //     $tglPengembalian = date('Y-m-d H:i:s', strtotime($tglPengembalian));
     
-    //     $existingBooking = $this->where('id_sarpras', $idSarana)
-    //         ->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-    //             $query->where(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-    //                 $query->where('tgl_peminjaman', '<=', $tglPengembalian)
-    //                     ->where('tgl_pengembalian', '>=', $tglPeminjaman);
-    //             })
-    //             ->orWhere(function ($query) use ($tglPeminjaman, $tglPengembalian) {
-    //                 $query->where('tgl_peminjaman', '>=', $tglPeminjaman)
-    //                     ->where('tgl_pengembalian', '<=', $tglPengembalian);
-    //             });
-    //         })
-    //         ->where('id', '<>', $this->id) // Exclude the current Pengajuan
-    //         ->exists();
-    
-    //     return !$existingBooking;
-    // }
-   
-    // public function getPeminjamanDates()
-    // {
-    //     return [
-    //         'tgl_peminjaman' => $this->tgl_mulai,
-    //         'tgl_pengembalian' => $this->tgl_akhir,
-    //     ];
-    // }
->>>>>>> a78e4d8 (perbaikan fitur peminjaman)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

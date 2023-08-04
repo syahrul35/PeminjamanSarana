@@ -9,13 +9,6 @@
 
     <!-- body -->
     <div>
-        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <a href="bandingkanEvent">
-                <x-button class="justify-center gap-2">
-                    <span>{{ __('Bandingkan Events') }}</span>
-                </x-button>
-            </a>
-        </div>
         <div class="py-2">
             <div class="overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
@@ -24,7 +17,7 @@
                             {{-- <th scope="col" class="px-6 py-3">No</th> --}}
                             <th scope="col" class="px-6 py-3">Nama Peminjam</th>
                             <th scope="col" class="px-6 py-3">Acara</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Pelaksanaan</th>
+                            <th scope="col" class="px-6 py-3">Tanggal Event</th>
                             <th scope="col" class="px-6 py-3">Nama Sarana</th>
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
@@ -34,17 +27,13 @@
                             $prevNamaUser = null;
                             $prevNamaEvent = null;
                             $prevTgl = null;
-                            $prevTglEvent = null;
-                            $sameDateEvents = []; // Array untuk menyimpan tanggal acara yang sudah muncul
                         @endphp
-
                         <!-- Tampilkan pesan sukses -->
                         @if (session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                             {{ session('success') }}
                         </div>
                         @endif
-
                         <!-- Tampilkan pesan kesalahan -->
                         @if ($errors->any())
                         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -55,42 +44,16 @@
                             </ul>
                         </div>
                         @endif
-
-                        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
-                            <ul>
-                                <li>
-                                    Apabila Terdapat Event dengan Tanggal yang Sama, Mohon Tekan
-                                    Tombol Bandingkan Event!
-                                </li>
-                            </ul>
-                        </div>
-                        
                         @forelse ( $pengajuan as $pengajuan)
 
-                        @php
-                            $tglEvent = \Carbon\Carbon::parse($pengajuan->tgl_mulai)->format('d-m-Y');
-                            $isSameDateEvent = isset($sameDateEvents[$tglEvent]);
-
-                            if (!$isSameDateEvent) {
-                                $sameDateEvents[$tglEvent] = true;
-                            }
-                        @endphp
-
-
-                        @if($pengajuan->nama_event !== $prevNamaEvent)
-                            @if ($isSameDateEvent)
-                                <tr class="bg-yellow-200 border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-yellow-200 text-center">
-                            @else
-                                <tr class="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
-                            @endif
+                        @if($pengajuan->name !== $prevNamaUser)
+                        <tr class="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                         @else
-                            @if ($isSameDateEvent)
-                                <tr class="bg-yellow-200 dark:bg-gray-800 dark:border-gray-700 hover:bg-yellow-200 text-center">
-                            
-                                <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
-                            @endif
+                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 text-center">
                         @endif
-
+                            {{-- <tr> --}}
+                            {{-- <td class="px-6 py-4">{{ $loop->iteration }}</td> --}}
+                            {{-- <td class="px-6 py-4">{{ $pengajuan->name }}</td> --}}
                             <td class="px-6 py-4">
                                 @if($pengajuan->name !== $prevNamaUser)
                                     {{ $pengajuan->name }}<br>
@@ -121,10 +84,25 @@
                                     $prevTgl = $pengajuan->tgl_mulai;
                                 @endphp           
                             </td>
+                            {{-- <td class="px-6 py-4">{{ $pengajuan->nama_event }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->tgl_mulai }}</td>
+                            <td class="px-6 py-4">{{ $pengajuan->tgl_akhir }}</td> --}}
                             <td class="px-6 py-4">{{ $pengajuan->nama_sarpras }}</td>
+                            {{-- <td class="px-6 py-4">
+                                <?php
+                                    $sarpras = DB::table('sarpras')
+                                        ->join('pengajuans', 'pengajuans.id_sarpras', '=', 'sarpras.id')
+                                        ->where('pengajuans.id_event', '=', $pengajuan->id_event)
+                                        ->where('pengajuans.status_pengajuan', '=', '1')
+                                        ->pluck('sarpras.nama_sarpras');
+                                ?>
+                                @foreach($sarpras as $nama_sarpras)
+                                    {{ $nama_sarpras }}<br>
+                                @endforeach
+                            </td> --}}
                             <td class="px-6 py-4">
                                 {{-- tombol terima --}}
-                                <form action="{{ route('terimaPengajuan', $pengajuan->id) }}" method="post">
+                                <form action="{{ route('terimaPengajuanWewenang', $pengajuan->id) }}" method="post">
                                     @csrf
                                     @method('PUT')
 
@@ -139,7 +117,7 @@
                                 </form>
 
                                 {{-- tombol tolak --}}
-                                <form action="{{ route('tolakPengajuan', $pengajuan->id) }}" method="post" type="submit">
+                                <form action="{{ route('tolakPengajuanWewenang', $pengajuan->id) }}" method="post" type="submit">
                                     @csrf
                                     @method('PUT')
                                     <x-button class="justify-center gap-2 bg-red-500 hover:bg-red-600 mt-2">
@@ -147,6 +125,8 @@
                                     </x-button>
                                 </form>
                             </td>
+                               
+
                         </tr>
                         @empty
                         @endforelse

@@ -49,7 +49,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full focus:bg-white" id="nama_wewenang" type="text" value="{{$wewenang->nama_wewenang}}" name="nama_wewenang">
+                        <input class="form-input block w-full focus:bg-white" id="nama_wewenang" type="text" value="{{$wewenang->users->name}}" name="nama_wewenang">
                     </div>
                 </div>
 

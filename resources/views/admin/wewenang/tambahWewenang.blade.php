@@ -46,11 +46,33 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full focus:bg-white" id="nama_wewenang" type="text" value="" name="nama_wewenang">
+                        <input class="form-input block w-full focus:bg-white" id="nama_wewenang" type="text" value="" name="name">
                     </div>
                 </div>
 
                 <div class="md:flex mb-4">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            Email
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input block w-full focus:bg-white" id="nama_wewenang" type="email" value="" name="email">
+                    </div>
+                </div>
+
+                <div class="md:flex mb-4">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            Password
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <input class="form-input block w-full focus:bg-white" id="nama_wewenang" type="password" value="" name="password">
+                    </div>
+                </div>
+
+                {{-- <div class="md:flex mb-4">
                     <div class="md:w-1/3">
                         <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
                             Jabatan
@@ -70,7 +92,7 @@
                     <div class="md:w-2/3">
                         <input class="form-input block w-full focus:bg-white" id="telp_wewenang" type="text" value="" name="telp_wewenang">
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="md:flex md:items-center">
                     <div class="md:w-1/3"></div>

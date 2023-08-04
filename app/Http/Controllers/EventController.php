@@ -32,10 +32,11 @@ class EventController extends Controller
             'id_user' => $request->id_user,
             'nama_event' => $request->nama_event,
             'tgl_mulai' => $request->tgl_mulai,
-            'tgl_akhir' => $request->tgl_akhir,
             'jumlah_peserta' => $request->jumlah_peserta,
             'pemateri' => $request->pemateri,
+            'nilai_pemateri' => $request->nilai_pemateri,
             'undangan' => $request->undangan,
+            'nilai_undangan' => $request->nilai_undangan,
             'biaya_pengeluaran' => $request->biaya_pengeluaran,
             'biaya_pendapatan' => $request->biaya_pendapatan,
         ]);

@@ -66,18 +66,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="date-time" value="" name="tgl_mulai">
-                    </div>
-                </div>
-    
-                <div class="md:flex mb-4">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
-                            Tanggal Akhir
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_akhir" type="date-time" min="" value="" name="tgl_akhir">
+                        <input class="form-input block w-full rounded focus:bg-white" id="tgl_mulai" type="date" value="" name="tgl_mulai">
                     </div>
                 </div>
     
@@ -102,6 +91,24 @@
                         <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="" name="pemateri">
                     </div>
                 </div>
+
+                <div class="md:flex mb-4">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            Jangkauan Pemateri
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <select name="nilai_pemateri" id="" class="form-select rounded block w-full focus:bg-white">
+                            <option value="Internasional">Internasional</option>
+                            <option value="Nasional">Nasional</option>
+                            <option value="Provinsi">Provinsi</option>
+                            <option value="Kabupaten">Kabupaten</option>
+                            <option value="Universitas">Universitas</option>
+                        </select>
+                        {{-- <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="" name="nilai_pemateri"> --}}
+                    </div>
+                </div>
     
                 <div class="md:flex mb-4">
                     <div class="md:w-1/3">
@@ -111,6 +118,24 @@
                     </div>
                     <div class="md:w-2/3">
                         <input class="form-input rounded block w-full focus:bg-white" id="undangan" type="text" value="" name="undangan">
+                    </div>
+                </div>
+
+                <div class="md:flex mb-4">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield" name="">
+                            Jangkauan Undangan
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <select name="nilai_undangan" id="" class="form-select rounded block w-full focus:bg-white">
+                            <option value="Internasional">Internasional</option>
+                            <option value="Nasional">Nasional</option>
+                            <option value="Provinsi">Provinsi</option>
+                            <option value="Kabupaten">Kabupaten</option>
+                            <option value="Universitas">Universitas</option>
+                        </select>
+                        {{-- <input class="form-input rounded block w-full focus:bg-white" id="pemateri" type="text" value="" name="nilai_undangan"> --}}
                     </div>
                 </div>
     

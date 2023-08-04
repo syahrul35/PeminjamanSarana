@@ -33,14 +33,6 @@
     @endcan
 
     @can('admin')
-    <x-sidebar.link title="Kelola Sarana" href="{{ route('kelolaSarpras') }}" :isActive="request()->routeIs('kelolaSarpras')">
-        <x-slot name="icon">
-            <x-heroicon-m-home class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-        </x-slot>
-    </x-sidebar.link>
-    @endcan
-
-    @can('admin')
     <x-sidebar.link title="Data Pengajuan" href="{{ route('pengajuan') }}" :isActive="request()->routeIs('pengajuan')">
         <x-slot name="icon">
             <x-heroicon-o-clipboard-document-list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -56,13 +48,13 @@
     </x-sidebar.link>
     @endcan
 
-    @can('admin')
+    {{-- @can('admin')
     <x-sidebar.link title="Bandingkan Event" href="{{ route('bandingkanEvent') }}" :isActive="request()->routeIs('bandingkanEvent')">
         <x-slot name="icon">
             <x-heroicon-o-scale class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
-    @endcan
+    @endcan --}}
 
     {{-- dashboard penyelenggara --}}
 
@@ -82,5 +74,37 @@
     </x-sidebar.link>
     @endcan
     
+    {{-- wewenang --}}
+    @can('wewenang')
+    <x-sidebar.link title="Dashboard" href="{{ route('dashboardWewenang') }}" :isActive="request()->routeIs('dashboardWewenang')">
+        <x-slot name="icon">
+            <x-heroicon-m-squares-2x2 class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+    @endcan
+
+    @can('wewenang')
+    <x-sidebar.link title="Kelola Sarana" href="{{ route('kelolaSarpras') }}" :isActive="request()->routeIs('kelolaSarpras')">
+        <x-slot name="icon">
+            <x-heroicon-m-home class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+    @endcan
+
+    @can('wewenang')
+    <x-sidebar.link title="Data Pengajuan" href="{{ route('kelolaPengajuan') }}" :isActive="request()->routeIs('kelolaPengajuan')">
+        <x-slot name="icon">
+            <x-heroicon-o-clipboard-document-list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+    @endcan
+
+    @can('wewenang')
+    <x-sidebar.link title="Data Peminjaman" href="{{ route('kelolaPeminjaman') }}" :isActive="request()->routeIs('kelolaPeminjaman')">
+        <x-slot name="icon">
+            <x-heroicon-s-calendar-days d class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+    @endcan
 
 </x-perfect-scrollbar>

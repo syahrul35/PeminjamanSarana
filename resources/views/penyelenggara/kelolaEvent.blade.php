@@ -25,8 +25,7 @@
                         <tr class="text-center">
                             <th scope="col" class="px-6 py-3">No</th>
                             <th scope="col" class="px-6 py-3">Nama Event</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Mulai</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Akhir</th>
+                            <th scope="col" class="px-6 py-3">Tanggal Pelaksanaan</th>
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
@@ -36,7 +35,6 @@
                             <td class="px-6 py-4">{{ $loop->iteration }}.</td>
                             <td class="px-6 py-4">{{ $event->nama_event }}</td>
                             <td class="px-6 py-4">{{ $event->tgl_mulai }}</td>
-                            <td class="px-6 py-4">{{ $event->tgl_akhir }}</td>
                             <td class="px-6 py-4">
                                 <form action="{{ route ('editEvent',$event->id)}}" method="get">
                                     {{ csrf_field() }}

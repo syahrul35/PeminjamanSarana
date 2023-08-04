@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('wewenangs', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_wewenang');
-            $table->string('jabatan_wewenang');
-            $table->string('telp_wewenang', 13);
+            $table->bigInteger('id_user')->unsigned();
+            $table->foreign('id_user')->references('id')->on('users');
+            $table->string('jabatan_wewenang')->default(0);
+            $table->string('telp_wewenang', 13)->default(0);
             $table->timestamps();
         });
     }
